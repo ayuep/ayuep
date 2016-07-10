@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 
-@DatabaseTable(tableName = "Location")
+@DatabaseTable(tableName = "storeInfo")
 public class StoreInfoDBModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -14,34 +14,32 @@ public class StoreInfoDBModel implements Serializable {
     @DatabaseField(generatedId = true, index = true, columnName = "id")
     private int id;
 
-    @DatabaseField(columnName = "StoreId")
+    @DatabaseField(columnName = "storeId")
     private String storeId;
 
+    @DatabaseField(columnName = "storeName")
     @SerializedName("StoreName")
     private String storeName;
 
+    @DatabaseField(columnName = "storeAddress")
     @SerializedName("StoreAddress")
     private String storeAddress;
 
+    @DatabaseField(columnName = "phoneNumber")
     @SerializedName("PhoneNumber")
     private String phoneNumber;
 
+    @DatabaseField(columnName = "storeImage")
     @SerializedName("StoreImage")
     private String storeImage;
 
+    @DatabaseField(columnName = "createdTime")
     @SerializedName("CreatedTime")
     private String createdTime;
 
+    @DatabaseField(columnName = "updatedTime")
     @SerializedName("UpdatedTime")
     private String updatedTime;
-
-    public String getUpdatedTime() {
-        return updatedTime;
-    }
-
-    public void setUpdatedTime(String updatedTime) {
-        this.updatedTime = updatedTime;
-    }
 
     public int getId() {
         return id;
@@ -93,5 +91,13 @@ public class StoreInfoDBModel implements Serializable {
 
     public void setCreatedTime(String createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public String getUpdatedTime() {
+        return updatedTime;
+    }
+
+    public void setUpdatedTime(String updatedTime) {
+        this.updatedTime = updatedTime;
     }
 }
