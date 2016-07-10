@@ -39,7 +39,7 @@ public class HttpUtil {
         return httpClient;
     }
 
-    private static void addHeader(Map<String, String> requestHeaders) {
+    public static void addHeader(Map<String, String> requestHeaders) {
         if (null != requestHeaders && requestHeaders.size() > 0) {
             Set<String> headerKeys = requestHeaders.keySet();
             for (String headerKey : headerKeys) {
@@ -53,6 +53,15 @@ public class HttpUtil {
         try {
             HttpEntity entity = new StringEntity(jsonParams, "utf-8");
             getAsyncHttpClient(context).post(context, url, entity, CONTENT_TYPE, responseHandler);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    public static void put(Context context, String url, String jsonParams, BaseAsyncHttpResponseHandler responseHandler) {
+        try {
+            HttpEntity entity = new StringEntity(jsonParams, "utf-8");
+            getAsyncHttpClient(context).put(context, url, entity, CONTENT_TYPE, responseHandler);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

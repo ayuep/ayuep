@@ -9,6 +9,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.ws.apple.ayuep.BaseActivity;
 import com.ws.apple.ayuep.R;
+import com.ws.apple.ayuep.proxy.DeviceProxy;
 
 public class BottomNavigationActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
@@ -26,6 +27,8 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         setContentView(R.layout.activity_bottom_navigation);
 
         initNavigation();
+
+        new DeviceProxy().registerDevice(this);
     }
 
     private void initNavigation() {

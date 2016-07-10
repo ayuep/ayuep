@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.ws.apple.ayuep.AYuePApplication;
 import com.ws.apple.ayuep.BaseFragment;
 import com.ws.apple.ayuep.CommonAdapter;
 import com.ws.apple.ayuep.R;
@@ -16,7 +15,6 @@ import com.ws.apple.ayuep.dao.StoreInfoDBModelDao;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class StoreFragment extends BaseFragment {
@@ -48,6 +46,7 @@ public class StoreFragment extends BaseFragment {
     }
 
     private void initView(View v) {
+
         mListView = (ListView) v.findViewById(R.id.id_store_list_view);
         mAdapter = new StoreItemAdapter(getActivity(), mStores);
         mListView.setAdapter(mAdapter);
@@ -55,7 +54,6 @@ public class StoreFragment extends BaseFragment {
 
     private void getData() {
 
-//        new StoreProxy().getAllStores(getActivity(), new StoreAsyncHttpResponseHandler());
         StoreInfoDBModelDao storeInfoDBModelDao = new StoreInfoDBModelDao(getActivity());
         try {
             mStores = storeInfoDBModelDao.query();
@@ -80,7 +78,6 @@ public class StoreFragment extends BaseFragment {
 
             return holder.getConvertView();
         }
-
 
     }
 }

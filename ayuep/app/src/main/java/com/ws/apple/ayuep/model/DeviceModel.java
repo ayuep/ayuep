@@ -14,6 +14,9 @@ public class DeviceModel {
     @SerializedName("DeviceIdentity")
     private String deviceIdentity;
 
+    @SerializedName("DeviceType")
+    private String deviceType;
+
     public String getDeviceToken() {
         return deviceToken;
     }
@@ -28,5 +31,13 @@ public class DeviceModel {
 
     public void setDeviceIdentity(String deviceIdentity) {
         this.deviceIdentity = deviceIdentity;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
     }
 }
