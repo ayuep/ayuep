@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">爱约拍</string>
+    <string name="service_host">http://192.168.0.103</string>
+    <string name="service_port">8090</string>
+
+    <string name="edit">编辑</string>
+    <string name="store_name">店名: </string>
+    <string name="store_phone">电话: </string>
+    <string name="store_address">地址: </string>
+    <string name="navigation_dashboard">首页</string>
+    <string name="navigation_all_stores">所有店铺</string>
+    <string name="navigation_my_order">我的订单</string>
+    <string name="navigation_my_info">我的</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

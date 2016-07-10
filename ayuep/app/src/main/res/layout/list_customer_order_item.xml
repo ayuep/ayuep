@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/id_order_product_list"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorDashboardBackgroud"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_toRightOf="@+id/id_order_product_list"
+        android:layout_alignBottom="@+id/id_order_product_list"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical"
+        android:background="@color/colorDashboardBackgroud">
+
+        <TextView
+            android:id="@+id/id_order_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:textSize="20dp"
+            android:layout_marginTop="3dp"
+            android:lines="1"/>
+
+        <TextView
+            android:id="@+id/id_order_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123"
+            android:textSize="20dp"
+            android:layout_marginTop="3dp"
+            android:lines="1"/>
+
+        <TextView
+            android:id="@+id/id_order_prodcut_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="time"
+            android:textSize="20dp"
+            android:layout_marginTop="3dp"
+            android:lines="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="status"
+            android:textSize="20dp"
+            android:layout_marginTop="3dp"
+            android:lines="1"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/colorWhiteColor"
+        android:text="comment"/>
+
+</RelativeLayout>

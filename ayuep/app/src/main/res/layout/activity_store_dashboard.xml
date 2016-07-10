@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/colorDashboardBackgroud">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="@string/app_name"
+        android:textSize="40dp"
+        android:textColor="@color/colorTitle"/>
+    <RelativeLayout
+        android:id="@+id/first_group"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="130dp">
+        <Button
+            android:id="@+id/store"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="50dp"
+            android:text="店铺"
+            android:textSize="35dp"
+            android:background="#AA310f"
+            android:textColor="@color/colorWhiteColor"
+            android:onClick="onClick"/>
+        <Button
+            android:id="@+id/products"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:text="套系"
+            android:textSize="35dp"
+            android:background="#4d3eef"
+            android:textColor="@color/colorWhiteColor"
+            android:onClick="onClick"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/first_group">
+        <Button
+            android:id="@+id/orders"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="50dp"
+            android:textSize="35dp"
+            android:text="订单"
+            android:background="#078e18"
+            android:textColor="@color/colorWhiteColor"
+            android:onClick="onClick"/>
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:textSize="35dp"
+            android:text="退出"
+            android:background="#312d8e"
+            android:textColor="@color/colorWhiteColor"
+            android:onClick="onClick"/>
+    </RelativeLayout>
+</RelativeLayout>
