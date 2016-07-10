@@ -11,7 +11,11 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        debug{
+            buildConfigField("String","SERVICE_URL", "\"http://115.28.39.199:8080\"");
+        }
         release {
+            buildConfigField("String","SERVICE_URL", "\"http://115.28.39.199:8080\"");
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

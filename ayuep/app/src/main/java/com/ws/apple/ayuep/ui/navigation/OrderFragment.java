@@ -13,8 +13,8 @@ public class OrderFragment extends BaseFragment {
     private String mTitle;
 
     public static OrderFragment getInstance() {
-        OrderFragment mainFragment = new OrderFragment();
-        return mainFragment;
+        OrderFragment fragment = new OrderFragment();
+        return fragment;
     }
 
     @Override

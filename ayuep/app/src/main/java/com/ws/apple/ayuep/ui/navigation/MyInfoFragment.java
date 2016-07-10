@@ -13,8 +13,8 @@ public class MyInfoFragment extends BaseFragment {
     private String mTitle;
 
     public static MyInfoFragment getInstance() {
-        MyInfoFragment mainFragment = new MyInfoFragment();
-        return mainFragment;
+        MyInfoFragment fragment = new MyInfoFragment();
+        return fragment;
     }
 
     @Override

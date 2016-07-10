@@ -7,14 +7,15 @@ import android.view.ViewGroup;
 
 import com.ws.apple.ayuep.BaseFragment;
 import com.ws.apple.ayuep.R;
+import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 
 public class DashboardFragment extends BaseFragment {
 
     private String mTitle;
 
     public static DashboardFragment getInstance() {
-        DashboardFragment mainFragment = new DashboardFragment();
-        return mainFragment;
+        DashboardFragment fragment = new DashboardFragment();
+        return fragment;
     }
 
     @Override
@@ -31,4 +32,15 @@ public class DashboardFragment extends BaseFragment {
         return v;
     }
 
+    private void getData(){
+
+    }
+
+    private class DashboardAsyncHttpResponseHandler  extends  BaseAsyncHttpResponseHandler{
+
+        @Override
+        public void onSuccess(String response) {
+
+        }
+    };
 }
