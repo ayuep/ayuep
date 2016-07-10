@@ -29,7 +29,7 @@ public class HttpHeaderUtil {
         requestHeader.put(REQUEST_ID, uuid.toString());
         requestHeader.put(APP_PLATFORM, APP_ANDROID);
         requestHeader.put(REQUEST_TIME, getRealTimeForRequestHeader());
-        requestHeader.put(DEVICE_IDENTITY, getDeviceIdentity());
+//        requestHeader.put(DEVICE_IDENTITY, getDeviceIdentity());
 
         return requestHeader;
     }
@@ -39,6 +39,7 @@ public class HttpHeaderUtil {
         Context context = AYuePApplication.getmCurrentActivity();
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         //Device of AVD is null;
+//        return "123";
         return telephonyManager.getDeviceId() == null ? telephonyManager.getDeviceId() : "AVD_";
     }
 

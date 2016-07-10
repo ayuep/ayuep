@@ -28,7 +28,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
 
         initNavigation();
 
-        new DeviceProxy().registerDevice(this);
+//        new DeviceProxy().registerDevice(this);
     }
 
     private void initNavigation() {
