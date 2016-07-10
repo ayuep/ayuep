@@ -44,4 +44,9 @@ public class StoreInfoDBModelDao {
     public void delete(List<StoreInfoDBModel> items) throws SQLException {
         mStoreInfoDao.delete(items);
     }
+
+    public void deleteAllStores() throws SQLException {
+        List<StoreInfoDBModel> result = mStoreInfoDao.queryForAll();
+        mStoreInfoDao.delete(result);
+    }
 }
