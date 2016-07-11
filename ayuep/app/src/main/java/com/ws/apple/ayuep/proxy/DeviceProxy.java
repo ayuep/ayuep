@@ -9,6 +9,7 @@ import com.ws.apple.ayuep.AYuePApplication;
 import com.ws.apple.ayuep.BuildConfig;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.model.DeviceModel;
+import com.ws.apple.ayuep.util.DeviceUtil;
 import com.ws.apple.ayuep.util.HttpHeaderUtil;
 import com.ws.apple.ayuep.util.HttpUtil;
 
@@ -20,7 +21,7 @@ public class DeviceProxy {
         String url = BuildConfig.SERVICE_URL + "/api/device";
 
         DeviceModel device = new DeviceModel();
-        device.setDeviceIdentity(HttpHeaderUtil.getDeviceIdentity());
+        device.setDeviceIdentity(DeviceUtil.getDeviceIdentity(context));
         device.setDeviceType("Android");
         Gson gson = new Gson();
 

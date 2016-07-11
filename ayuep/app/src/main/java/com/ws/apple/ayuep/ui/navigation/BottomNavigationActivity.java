@@ -27,8 +27,6 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         setContentView(R.layout.activity_bottom_navigation);
 
         initNavigation();
-
-//        new DeviceProxy().registerDevice(this);
     }
 
     private void initNavigation() {

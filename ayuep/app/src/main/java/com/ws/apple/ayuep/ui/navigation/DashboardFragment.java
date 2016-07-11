@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.ws.apple.ayuep.AYuePApplication;
 import com.ws.apple.ayuep.BaseFragment;
 import com.ws.apple.ayuep.CommonAdapter;
 import com.ws.apple.ayuep.R;
@@ -19,7 +20,9 @@ import com.ws.apple.ayuep.dao.StoreInfoDBModelDao;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.model.StoreModel;
+import com.ws.apple.ayuep.proxy.DeviceProxy;
 import com.ws.apple.ayuep.proxy.StoreProxy;
+import com.ws.apple.ayuep.util.DeviceUtil;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -49,6 +52,9 @@ public class DashboardFragment extends BaseFragment {
     private void getData() {
 
         new StoreProxy().getAllStores(getActivity(), new StoreAsyncHttpResponseHandler());
+
+//        String deviceIdentity = DeviceUtil.getDeviceIdentity(getActivity());
+//        new DeviceProxy().registerDevice(getActivity());
     }
 
 
@@ -68,12 +74,12 @@ public class DashboardFragment extends BaseFragment {
                     storeInfoDBModelDao.deleteAllStores();
                     storeInfoDBModelDao.insert(stores);
 
-                    Toast.makeText(mContext, response, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(mContext, response, Toast.LENGTH_LONG).show();
 
                     int d = storeInfoDBModelDao.query().size();
                     Log.d("Richard", "total count: " + d);
                 } catch (SQLException e) {
-
+                    Log.d("1", e.getMessage());
                 }
 
             }
