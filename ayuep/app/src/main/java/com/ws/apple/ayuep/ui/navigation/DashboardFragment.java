@@ -16,6 +16,7 @@ import com.ws.apple.ayuep.BaseFragment;
 import com.ws.apple.ayuep.CommonAdapter;
 import com.ws.apple.ayuep.R;
 import com.ws.apple.ayuep.ViewHolder;
+import com.ws.apple.ayuep.dao.DataCacheManager;
 import com.ws.apple.ayuep.dao.StoreInfoDBModelDao;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
@@ -26,6 +27,8 @@ import com.ws.apple.ayuep.util.DeviceUtil;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class DashboardFragment extends BaseFragment {
 
@@ -50,11 +53,8 @@ public class DashboardFragment extends BaseFragment {
     }
 
     private void getData() {
-
         new StoreProxy().getAllStores(getActivity(), new StoreAsyncHttpResponseHandler());
-
-//        String deviceIdentity = DeviceUtil.getDeviceIdentity(getActivity());
-//        new DeviceProxy().registerDevice(getActivity());
+        new DeviceProxy().registerDevice(getActivity(), new DeviceAsyncHttpResponseHandler());
     }
 
 
@@ -83,6 +83,14 @@ public class DashboardFragment extends BaseFragment {
                 }
 
             }
+        }
+    }
+
+    private class DeviceAsyncHttpResponseHandler extends  BaseAsyncHttpResponseHandler {
+
+        @Override
+        public void onSuccess(String response) {
+            Log.d("Keven", "success");
         }
     }
 

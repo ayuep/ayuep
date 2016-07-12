@@ -1,10 +1,19 @@
 package com.ws.apple.ayuep.util;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.os.Environment;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
+
+import com.ws.apple.ayuep.Constants;
+import com.ws.apple.ayuep.dao.SettingModelDao;
+import com.ws.apple.ayuep.entity.SettingModel;
+
+import java.util.UUID;
 
 public class DeviceUtil {
 
@@ -22,12 +31,6 @@ public class DeviceUtil {
 
         int height = dm.heightPixels;
         return height;
-    }
-
-    public static String getDeviceIdentity(Context context) {
-        TelephonyManager telephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        // DeviceId of AVD is null, please add different suffix to 'AVD_' in local code.
-        return telephonyMgr.getDeviceId() != null ? telephonyMgr.getDeviceId() : "AVD_";
     }
 
     /**

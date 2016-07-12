@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.ws.apple.ayuep.AYuePApplication;
 import com.ws.apple.ayuep.BuildConfig;
+import com.ws.apple.ayuep.dao.DataCacheManager;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.model.DeviceModel;
 import com.ws.apple.ayuep.util.DeviceUtil;
@@ -17,22 +18,15 @@ import cz.msebera.android.httpclient.Header;
 
 public class DeviceProxy {
 
-    public void registerDevice(Context context) {
+    public void registerDevice(Context context, BaseAsyncHttpResponseHandler handler) {
         String url = BuildConfig.SERVICE_URL + "/api/device";
 
         DeviceModel device = new DeviceModel();
-        device.setDeviceIdentity(DeviceUtil.getDeviceIdentity(context));
+        device.setDeviceIdentity(DataCacheManager.getDataCacheManager(context).getDeviceIdentity());
         device.setDeviceType("Android");
         Gson gson = new Gson();
 
-        HttpUtil.post(context, url, gson.toJson(device), new DeviceAsynHttpResonseHandler());
+        HttpUtil.post(context, url, gson.toJson(device), handler);
     }
 
-    private class DeviceAsynHttpResonseHandler extends  BaseAsyncHttpResponseHandler {
-
-        @Override
-        public void onSuccess(String response) {
-            Log.d("Keven", "success");
-        }
-    }
 }

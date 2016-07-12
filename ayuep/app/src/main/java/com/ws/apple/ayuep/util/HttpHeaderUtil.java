@@ -4,6 +4,7 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 
 import com.ws.apple.ayuep.AYuePApplication;
+import com.ws.apple.ayuep.dao.DataCacheManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class HttpHeaderUtil {
         requestHeader.put(REQUEST_ID, uuid.toString());
         requestHeader.put(APP_PLATFORM, APP_ANDROID);
         requestHeader.put(REQUEST_TIME, getRealTimeForRequestHeader());
-        requestHeader.put(DEVICE_IDENTITY, DeviceUtil.getDeviceIdentity(AYuePApplication.getmCurrentActivity()));
+        requestHeader.put(DEVICE_IDENTITY, DataCacheManager.getDataCacheManager(AYuePApplication.getmCurrentActivity()).getDeviceIdentity());
 
         return requestHeader;
     }
