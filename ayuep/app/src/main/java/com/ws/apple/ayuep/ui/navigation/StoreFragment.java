@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ws.apple.ayuep.BaseFragment;
 import com.ws.apple.ayuep.CommonAdapter;
 import com.ws.apple.ayuep.R;
@@ -75,6 +77,8 @@ public class StoreFragment extends BaseFragment {
             ViewHolder holder = ViewHolder.get(getActivity(), view, viewGroup, R.layout.list_store_item);
             holder.setText(R.id.id_store_name, store.getStoreName());
             holder.setText(R.id.id_store_address, store.getStoreAddress());
+            ImageView imageView = (ImageView) holder.getView(R.id.id_store_image);
+            ImageLoader.getInstance().displayImage(store.getStoreImage(), imageView);
 
             return holder.getConvertView();
         }

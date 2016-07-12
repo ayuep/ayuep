@@ -12,10 +12,10 @@ android {
     }
     buildTypes {
         debug{
-            buildConfigField("String","SERVICE_URL", "\"http://192.168.3.13:8090\"");
+            buildConfigField("String","SERVICE_URL", "\"http://115.28.39.199:8080\"");
         }
         release {
-            buildConfigField("String","SERVICE_URL", "\"http://192.168.3.13:8090\"");
+            buildConfigField("String","SERVICE_URL", "\"http://115.28.39.199:8080\"");
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -29,5 +29,6 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'com.j256.ormlite:ormlite-core:4.48'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     testCompile 'junit:junit:4.12'
 }

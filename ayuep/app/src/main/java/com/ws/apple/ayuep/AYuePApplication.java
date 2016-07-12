@@ -6,6 +6,9 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.util.Log;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 public class AYuePApplication extends Application {
 
     private String TAG = AYuePApplication.class.getName();
@@ -25,6 +28,8 @@ public class AYuePApplication extends Application {
     private void init() {
         // register crash handler.
         CrashHandler.getInstance();
+        ImageLoaderConfiguration config = new  ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader.getInstance().init(config);
     }
 
     public static Activity getmCurrentActivity() {
