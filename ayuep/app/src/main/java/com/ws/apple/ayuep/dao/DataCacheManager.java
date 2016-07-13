@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.SQLException;
 import android.util.Log;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.ws.apple.ayuep.Constants;
 import com.ws.apple.ayuep.entity.SettingModel;
 
@@ -18,6 +19,7 @@ public class DataCacheManager {
     private static DataCacheManager instance;
 
     private String deviceIdentity;
+    private DisplayImageOptions mDisplayImageOptions;
 
     public static DataCacheManager getDataCacheManager(Context context) {
         if (instance == null) {
@@ -61,5 +63,15 @@ public class DataCacheManager {
         }
 
         this.deviceIdentity = deviceIdentity;
+    }
+
+    public DisplayImageOptions getmDisplayImageOptions() {
+        if (this.mDisplayImageOptions == null) {
+            mDisplayImageOptions = new DisplayImageOptions.Builder()
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .build();
+        }
+        return mDisplayImageOptions;
     }
 }

@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ws.apple.ayuep.BaseFragment;
 import com.ws.apple.ayuep.CommonAdapter;
 import com.ws.apple.ayuep.R;
 import com.ws.apple.ayuep.ViewHolder;
+import com.ws.apple.ayuep.dao.DataCacheManager;
 import com.ws.apple.ayuep.dao.StoreInfoDBModelDao;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
 
@@ -78,7 +80,7 @@ public class StoreFragment extends BaseFragment {
             holder.setText(R.id.id_store_name, store.getStoreName());
             holder.setText(R.id.id_store_address, store.getStoreAddress());
             ImageView imageView = (ImageView) holder.getView(R.id.id_store_image);
-            ImageLoader.getInstance().displayImage(store.getStoreImage(), imageView);
+            ImageLoader.getInstance().displayImage(store.getStoreImage(), imageView, DataCacheManager.getDataCacheManager(getActivity()).getmDisplayImageOptions());
 
             return holder.getConvertView();
         }

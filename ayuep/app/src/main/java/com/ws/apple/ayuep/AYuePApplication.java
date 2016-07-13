@@ -6,6 +6,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.util.Log;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -15,6 +16,7 @@ public class AYuePApplication extends Application {
     private static Context mApplicationContext;
     private static Activity mCurrentActivity;
     private ListActivity listActivity;
+    private DisplayImageOptions mDisplayImageOptions;
 
     @Override
     public void onCreate() {
