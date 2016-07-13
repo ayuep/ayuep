@@ -19,8 +19,7 @@ public class DataCacheManager {
     private static DataCacheManager instance;
 
     private String deviceIdentity;
-    private DisplayImageOptions mDisplayImageOptions;
-
+    
     public static DataCacheManager getDataCacheManager(Context context) {
         if (instance == null) {
             synchronized (DataCacheManager.class) {
@@ -65,13 +64,5 @@ public class DataCacheManager {
         this.deviceIdentity = deviceIdentity;
     }
 
-    public DisplayImageOptions getmDisplayImageOptions() {
-        if (this.mDisplayImageOptions == null) {
-            mDisplayImageOptions = new DisplayImageOptions.Builder()
-                    .cacheInMemory(true)
-                    .cacheOnDisk(true)
-                    .build();
-        }
-        return mDisplayImageOptions;
-    }
+
 }

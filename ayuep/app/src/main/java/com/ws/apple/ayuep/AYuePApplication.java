@@ -9,6 +9,7 @@ import android.util.Log;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 public class AYuePApplication extends Application {
 
@@ -30,7 +31,16 @@ public class AYuePApplication extends Application {
     private void init() {
         // register crash handler.
         CrashHandler.getInstance();
-        ImageLoaderConfiguration config = new  ImageLoaderConfiguration.Builder(this).build();
+        DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        ImageLoaderConfiguration config = new  ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(displayImageOptions)
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .build();
         ImageLoader.getInstance().init(config);
     }
 

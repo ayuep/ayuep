@@ -80,7 +80,7 @@ public class StoreFragment extends BaseFragment {
             holder.setText(R.id.id_store_name, store.getStoreName());
             holder.setText(R.id.id_store_address, store.getStoreAddress());
             ImageView imageView = (ImageView) holder.getView(R.id.id_store_image);
-            ImageLoader.getInstance().displayImage(store.getStoreImage(), imageView, DataCacheManager.getDataCacheManager(getActivity()).getmDisplayImageOptions());
+            ImageLoader.getInstance().displayImage(store.getStoreImage(), imageView);
 
             return holder.getConvertView();
         }
