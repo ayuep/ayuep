@@ -7,10 +7,12 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.entity.SettingModel;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
@@ -20,6 +22,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private Dao<StoreInfoDBModel, Integer> mStoreInfoDBModelDao;
     private Dao<SettingModel, Integer> mSettingsModelDao;
+    private Dao<ProductDBModel, Integer> mProductDbModelDao;
 
     private DatabaseHelper(Context context) {
         super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,6 +41,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(connectionSource, StoreInfoDBModel.class);
             TableUtils.createTable(connectionSource, SettingModel.class);
+            TableUtils.createTable(connectionSource, ProductDBModel.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -68,5 +72,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             mSettingsModelDao = getDao(SettingModel.class);
         }
         return mSettingsModelDao;
+    }
+
+    public Dao<ProductDBModel, Integer> getmProductDbModelDao() throws SQLException {
+        if (mProductDbModelDao == null) {
+            mProductDbModelDao = getDao(ProductDBModel.class);
+        }
+        return mProductDbModelDao;
     }
 }

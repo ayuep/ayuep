@@ -1,38 +1,55 @@
-package com.ws.apple.ayuep.model;
+package com.ws.apple.ayuep.entity;
 
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by apple on 16/7/9.
  */
 
-public class ProductModel {
+@DatabaseTable(tableName = "product")
+public class ProductDBModel implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
+    @DatabaseField(generatedId = true, index = true, columnName = "id")
+    private int id;
+
+    @DatabaseField(columnName = "productId")
     @SerializedName("ProductId")
     private String productId;
 
+    @DatabaseField(columnName = "storeId")
     @SerializedName("StoreId")
     private String storeId;
 
+    @DatabaseField(columnName = "price")
     @SerializedName("Price")
     private double price;
 
+    @DatabaseField(columnName = "productType")
     @SerializedName("ProductType")
     private String productType;
 
+    @DatabaseField(columnName = "productDescription")
     @SerializedName("ProductDescription")
     private String productDescription;
 
+    @DatabaseField(columnName = "images")
     @SerializedName("Images")
     private String images;
 
+    @DatabaseField(columnName = "updatedTime")
     @SerializedName("UpdatedTime")
-    private Date UpdatedTime;
+    private String UpdatedTime;
 
+    @DatabaseField(columnName = "createdTime")
     @SerializedName("CreatedTime")
-    private Date CreatedTime;
+    private String CreatedTime;
 
     public String getProductId() {
         return productId;
@@ -82,19 +99,19 @@ public class ProductModel {
         this.images = images;
     }
 
-    public Date getUpdatedTime() {
+    public String getUpdatedTime() {
         return UpdatedTime;
     }
 
-    public void setUpdatedTime(Date updatedTime) {
+    public void setUpdatedTime(String updatedTime) {
         UpdatedTime = updatedTime;
     }
 
-    public Date getCreatedTime() {
+    public String getCreatedTime() {
         return CreatedTime;
     }
 
-    public void setCreatedTime(Date createdTime) {
+    public void setCreatedTime(String createdTime) {
         CreatedTime = createdTime;
     }
 }

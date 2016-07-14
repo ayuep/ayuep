@@ -23,6 +23,9 @@ import com.ws.apple.ayuep.model.RotationModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+
 public class DashboardFragment extends BaseFragment implements AdapterView.OnItemClickListener, ViewPager.OnPageChangeListener, OnItemClickListener {
 
     private String mTitle;
@@ -31,6 +34,8 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
     private LinearLayout mContentView;
     private View view;
     private ConfigurationModel mConfiguration;
+    private BottomNavigationActivity mParentActivity;
+    private PtrFrameLayout mPtrFrameLayout;
 
     private ArrayList<String> transformerList = new ArrayList<String>();
 
@@ -78,6 +83,14 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
                 mContentView.addView(view);
             }
         }
+
+        mPtrFrameLayout = (PtrFrameLayout) view.findViewById(R.id.rotate_header_list_view_frame);
+        mPtrFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mParentActivity.refresh();
+            }
+        });
     }
 
     private void getData() {
@@ -112,5 +125,21 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
 
     public void setmConfiguration(ConfigurationModel mConfiguration) {
         this.mConfiguration = mConfiguration;
+    }
+
+    public BottomNavigationActivity getmParentActivity() {
+        return mParentActivity;
+    }
+
+    public void setmParentActivity(BottomNavigationActivity mParentActivity) {
+        this.mParentActivity = mParentActivity;
+    }
+
+    public PtrFrameLayout getmPtrFrameLayout() {
+        return mPtrFrameLayout;
+    }
+
+    public void setmPtrFrameLayout(PtrFrameLayout mPtrFrameLayout) {
+        this.mPtrFrameLayout = mPtrFrameLayout;
     }
 }

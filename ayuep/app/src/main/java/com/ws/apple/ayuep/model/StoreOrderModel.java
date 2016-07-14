@@ -1,6 +1,7 @@
 package com.ws.apple.ayuep.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.ws.apple.ayuep.entity.ProductDBModel;
 
 /**
  * Created by apple on 16/7/9.
@@ -12,7 +13,7 @@ public class StoreOrderModel {
     private CustomerModel customer;
 
     @SerializedName("Product")
-    private ProductModel product;
+    private ProductDBModel product;
 
     @SerializedName("Order")
     private OrderModel order;
@@ -25,11 +26,11 @@ public class StoreOrderModel {
         this.customer = customer;
     }
 
-    public ProductModel getProduct() {
+    public ProductDBModel getProduct() {
         return product;
     }
 
-    public void setProduct(ProductModel product) {
+    public void setProduct(ProductDBModel product) {
         this.product = product;
     }
 

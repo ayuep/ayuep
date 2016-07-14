@@ -1,6 +1,7 @@
 package com.ws.apple.ayuep.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.ws.apple.ayuep.entity.ProductDBModel;
 
 import java.util.Date;
 
@@ -26,7 +27,7 @@ public class CommentModel {
     private CustomerModel customer;
 
     @SerializedName("Product")
-    private ProductModel product;
+    private ProductDBModel product;
 
     public String getCommentId() {
         return commentId;
@@ -68,11 +69,11 @@ public class CommentModel {
         this.customer = customer;
     }
 
-    public ProductModel getProduct() {
+    public ProductDBModel getProduct() {
         return product;
     }
 
-    public void setProduct(ProductModel product) {
+    public void setProduct(ProductDBModel product) {
         this.product = product;
     }
 }

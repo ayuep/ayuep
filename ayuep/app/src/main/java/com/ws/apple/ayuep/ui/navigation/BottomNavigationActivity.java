@@ -12,12 +12,15 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ws.apple.ayuep.BaseActivity;
 import com.ws.apple.ayuep.R;
+import com.ws.apple.ayuep.dao.ProductDBModelDao;
 import com.ws.apple.ayuep.dao.StoreInfoDBModelDao;
+import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.model.ConfigurationModel;
 import com.ws.apple.ayuep.proxy.ConfigurationProxy;
 import com.ws.apple.ayuep.proxy.DeviceProxy;
+import com.ws.apple.ayuep.proxy.ProductProxy;
 import com.ws.apple.ayuep.proxy.StoreProxy;
 
 import java.sql.SQLException;
@@ -33,6 +36,8 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
     private OrderFragment mOrderFragment;
     private MyInfoFragment mMyInfoFragment;
     private ConfigurationModel mConfiguration;
+    private boolean mGetProductSuccess;
+    private boolean mGetStoreSuccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         mDashboardFragment = DashboardFragment.getInstance();
+        mDashboardFragment.setmParentActivity(this);
         transaction.replace(R.id.tb, mDashboardFragment);
         setTitle(R.string.navigation_dashboard);
         findViewById(R.id.tb).setBackgroundResource(R.color.colorDashboardBackgroud);
@@ -79,6 +85,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
             case 0:
                 if (mDashboardFragment == null) {
                     mDashboardFragment = DashboardFragment.getInstance();
+                    mDashboardFragment.setmParentActivity(this);
                 }
                 transaction.replace(R.id.tb, mDashboardFragment);
                 findViewById(R.id.tb).setBackgroundResource(R.color.colorDashboardBackgroud);
@@ -126,15 +133,30 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
     }
 
     public void getData() {
-        new StoreProxy().getAllStores(this, new StoreAsyncHttpResponseHandler());
         new DeviceProxy().registerDevice(this, new DeviceAsyncHttpResponseHandler());
         new ConfigurationProxy().getConfiguration(this, new ConfigrationAsyncHttpResponseHandler());
+        refresh();
+    }
+
+    public void refresh() {
+        mGetStoreSuccess = false;
+        mGetProductSuccess = false;
+        new StoreProxy().getAllStores(this, new StoreAsyncHttpResponseHandler());
+        new ProductProxy().getProducts(this, new ProductAsyncHttpResponseHandler());
+    }
+
+    private void checkGetDataSuccess() {
+        if (mGetProductSuccess && mGetStoreSuccess) {
+            mDashboardFragment.getmPtrFrameLayout().refreshComplete();
+        }
     }
 
     private class StoreAsyncHttpResponseHandler extends BaseAsyncHttpResponseHandler {
 
         @Override
         public void onSuccess(String response) {
+            mGetStoreSuccess = true;
+            checkGetDataSuccess();
             if (!TextUtils.isEmpty(response)) {
                 Gson gson = new Gson();
 
@@ -150,6 +172,35 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
 //                    Toast.makeText(mContext, response, Toast.LENGTH_LONG).show();
 
                     int d = storeInfoDBModelDao.query().size();
+                    Log.d("Richard", "total count: " + d);
+                } catch (SQLException e) {
+                    Log.d("1", e.getMessage());
+                }
+
+            }
+        }
+    }
+
+    private class ProductAsyncHttpResponseHandler extends BaseAsyncHttpResponseHandler {
+
+        @Override
+        public void onSuccess(String response) {
+            mGetProductSuccess = true;
+            checkGetDataSuccess();
+            if (!TextUtils.isEmpty(response)) {
+                Gson gson = new Gson();
+
+                List<ProductDBModel> products = gson.fromJson(response, new TypeToken<List<ProductDBModel>>(){}.getType());
+
+                // 存储在本地DB中。
+                try {
+                    ProductDBModelDao productDBModelDao = new ProductDBModelDao(mContext);
+                    productDBModelDao.deleteAllProducts();
+                    productDBModelDao.insert(products);
+
+//                    Toast.makeText(mContext, response, Toast.LENGTH_LONG).show();
+
+                    int d = productDBModelDao.query().size();
                     Log.d("Richard", "total count: " + d);
                 } catch (SQLException e) {
                     Log.d("1", e.getMessage());

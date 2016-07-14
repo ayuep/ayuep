@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+
+import java.util.Locale;
 
 public class AYuePApplication extends Application {
 
@@ -42,6 +47,21 @@ public class AYuePApplication extends Application {
                 .denyCacheImageMultipleSizesInMemory()
                 .build();
         ImageLoader.getInstance().init(config);
+
+        setLang(Locale.SIMPLIFIED_CHINESE);
+
+    }
+
+    private void setLang(Locale l) {
+        // 获得res资源对象
+        Resources resources = getResources();
+        // 获得设置对象
+        Configuration config = resources.getConfiguration();
+        // 获得屏幕参数：主要是分辨率，像素等。
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        // 语言
+        config.setLocale(l);
+        resources.updateConfiguration(config, dm);
     }
 
     public static Activity getmCurrentActivity() {
