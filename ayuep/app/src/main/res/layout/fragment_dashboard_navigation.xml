@@ -1,14 +1,39 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorDashboardBackgroud">
 
-    <com.bigkoo.convenientbanner.ConvenientBanner
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/convenientBanner"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:canLoop="true"
-    />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/id_dashboard_content_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.bigkoo.convenientbanner.ConvenientBanner
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/convenientBanner"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                app:canLoop="true"
+            />
+            <LinearLayout
+                android:background="@color/colorSummary"
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
 
-</FrameLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="50dp"
+                    android:textColor="@color/colorWhiteColor"
+                    android:textSize="45dp"
+                    android:text="摄影分类"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

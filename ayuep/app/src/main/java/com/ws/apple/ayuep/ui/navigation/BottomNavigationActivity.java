@@ -3,13 +3,25 @@ package com.ws.apple.ayuep.ui.navigation;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ws.apple.ayuep.BaseActivity;
 import com.ws.apple.ayuep.R;
+import com.ws.apple.ayuep.dao.StoreInfoDBModelDao;
+import com.ws.apple.ayuep.entity.StoreInfoDBModel;
+import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
+import com.ws.apple.ayuep.model.ConfigurationModel;
+import com.ws.apple.ayuep.proxy.ConfigurationProxy;
 import com.ws.apple.ayuep.proxy.DeviceProxy;
+import com.ws.apple.ayuep.proxy.StoreProxy;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class BottomNavigationActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
@@ -20,6 +32,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
     private StoreFragment mStoreFragment;
     private OrderFragment mOrderFragment;
     private MyInfoFragment mMyInfoFragment;
+    private ConfigurationModel mConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +40,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         setContentView(R.layout.activity_bottom_navigation);
 
         initNavigation();
+        getData();
     }
 
     private void initNavigation() {
@@ -51,6 +65,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         mDashboardFragment = DashboardFragment.getInstance();
         transaction.replace(R.id.tb, mDashboardFragment);
         setTitle(R.string.navigation_dashboard);
+        findViewById(R.id.tb).setBackgroundResource(R.color.colorDashboardBackgroud);
         transaction.commit();
     }
 
@@ -66,6 +81,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
                     mDashboardFragment = DashboardFragment.getInstance();
                 }
                 transaction.replace(R.id.tb, mDashboardFragment);
+                findViewById(R.id.tb).setBackgroundResource(R.color.colorDashboardBackgroud);
                 setTitle(R.string.navigation_dashboard);
                 break;
             case 1:
@@ -74,6 +90,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
                 }
                 transaction.replace(R.id.tb, mStoreFragment);
                 setTitle(R.string.navigation_all_stores);
+                findViewById(R.id.tb).setBackgroundResource(R.color.colorWhiteColor);
                 break;
             case 2:
                 if (mOrderFragment == null) {
@@ -81,6 +98,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
                 }
                 transaction.replace(R.id.tb, mOrderFragment);
                 setTitle(R.string.navigation_my_order);
+                findViewById(R.id.tb).setBackgroundResource(R.color.colorWhiteColor);
                 break;
             case 3:
                 if (mMyInfoFragment == null) {
@@ -88,6 +106,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
                 }
                 transaction.replace(R.id.tb, mMyInfoFragment);
                 setTitle(R.string.navigation_my_info);
+                findViewById(R.id.tb).setBackgroundResource(R.color.colorWhiteColor);
                 break;
             default:
                 break;
@@ -103,6 +122,65 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
 
     @Override
     public void onTabReselected(int position) {
+
+    }
+
+    public void getData() {
+        new StoreProxy().getAllStores(this, new StoreAsyncHttpResponseHandler());
+        new DeviceProxy().registerDevice(this, new DeviceAsyncHttpResponseHandler());
+        new ConfigurationProxy().getConfiguration(this, new ConfigrationAsyncHttpResponseHandler());
+    }
+
+    private class StoreAsyncHttpResponseHandler extends BaseAsyncHttpResponseHandler {
+
+        @Override
+        public void onSuccess(String response) {
+            if (!TextUtils.isEmpty(response)) {
+                Gson gson = new Gson();
+
+                List<StoreInfoDBModel> stores = gson.fromJson(response, new TypeToken<List<StoreInfoDBModel>>() {
+                }.getType());
+
+                // 存储在本地DB中。
+                try {
+                    StoreInfoDBModelDao storeInfoDBModelDao = new StoreInfoDBModelDao(mContext);
+                    storeInfoDBModelDao.deleteAllStores();
+                    storeInfoDBModelDao.insert(stores);
+
+//                    Toast.makeText(mContext, response, Toast.LENGTH_LONG).show();
+
+                    int d = storeInfoDBModelDao.query().size();
+                    Log.d("Richard", "total count: " + d);
+                } catch (SQLException e) {
+                    Log.d("1", e.getMessage());
+                }
+
+            }
+        }
+    }
+
+
+
+    private class DeviceAsyncHttpResponseHandler extends  BaseAsyncHttpResponseHandler {
+
+        @Override
+        public void onSuccess(String response) {
+            Log.d("Keven", "success");
+        }
+    }
+
+    private class ConfigrationAsyncHttpResponseHandler extends BaseAsyncHttpResponseHandler {
+
+        @Override
+        public void onSuccess(String response) {
+            if (!TextUtils.isEmpty(response)) {
+                Gson gson = new Gson();
+
+                mConfiguration = gson.fromJson(response, new TypeToken<ConfigurationModel>(){}.getType());
+                mDashboardFragment.setmConfiguration(mConfiguration);
+                mDashboardFragment.initView();
+            }
+        }
 
     }
 }
