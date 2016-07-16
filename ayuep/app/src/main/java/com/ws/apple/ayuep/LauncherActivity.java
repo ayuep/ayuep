@@ -23,5 +23,6 @@ public class LauncherActivity extends Activity {
     private void jumpToNavigation() {
         Intent intent = new Intent(LauncherActivity.this, BottomNavigationActivity.class);
         startActivity(intent);
+        this.finish();
     }
 }

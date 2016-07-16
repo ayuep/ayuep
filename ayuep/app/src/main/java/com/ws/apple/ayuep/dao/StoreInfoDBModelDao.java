@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
 
 import java.sql.SQLException;
@@ -41,6 +43,13 @@ public class StoreInfoDBModelDao {
         return result;
     }
 
+    public StoreInfoDBModel queryByStoreId(String storeId) throws SQLException {
+        QueryBuilder<StoreInfoDBModel, ?> builder = mStoreInfoDao.queryBuilder();
+        builder.where().eq("storeId", storeId);
+        PreparedQuery<StoreInfoDBModel> preparedQuery = builder.prepare();
+        StoreInfoDBModel result = mStoreInfoDao.queryForFirst(preparedQuery);
+        return result;
+    }
     public void delete(List<StoreInfoDBModel> items) throws SQLException {
         mStoreInfoDao.delete(items);
     }

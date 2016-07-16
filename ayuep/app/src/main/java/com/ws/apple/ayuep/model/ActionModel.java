@@ -16,6 +16,8 @@ public class ActionModel implements Serializable {
 
     private String productId;
 
+    private String title;
+
     public NavigatorType getNavigatorType() {
         return navigatorType;
     }
@@ -46,5 +48,13 @@ public class ActionModel implements Serializable {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

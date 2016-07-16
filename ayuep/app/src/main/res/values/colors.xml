@@ -15,4 +15,6 @@
 
     <color name="colorLine">#D9D9D9</color>
     <color name="colorSummary">#FF6950</color>
+
+    <color name="colorPrice">#D66929</color>
 </resources>

@@ -64,6 +64,7 @@ public class StoreFragment extends BaseFragment {
                 ActionModel action = new ActionModel();
                 action.setNavigatorType(NavigatorType.BYSTOREID);
                 action.setStoreId(mStores.get(i).getStoreId());
+                action.setTitle(mStores.get(i).getStoreName());
                 intent.putExtra("action", action);
                 startActivity(intent);
             }

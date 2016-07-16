@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.ws.apple.ayuep.model.ConfigurationModel;
 import com.ws.apple.ayuep.model.NavigatorType;
 import com.ws.apple.ayuep.model.ProductTypeModel;
 import com.ws.apple.ayuep.model.RotationModel;
+import com.ws.apple.ayuep.ui.product.ProductDetailActivity;
 import com.ws.apple.ayuep.ui.product.ProductListActivity;
 
 import java.util.ArrayList;
@@ -82,12 +84,16 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
             mConvenientBanner.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    Intent intent = new Intent(getActivity(), ProductListActivity.class);
-                    ActionModel action = new ActionModel();
-                    action.setNavigatorType(NavigatorType.BYPRODUCTID);
-                    action.setProductId(mConfiguration.getBanners().get(position).getProductId());
-                    intent.putExtra("action", action);
-                    startActivity(intent);
+                    String productId = mConfiguration.getBanners().get(position).getProductId();
+                    if (!TextUtils.isEmpty(productId)) {
+                        Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                        ActionModel action = new ActionModel();
+                        action.setNavigatorType(NavigatorType.BYPRODUCTID);
+                        action.setProductId(mConfiguration.getBanners().get(position).getProductId());
+                        action.setTitle("套系详情");
+                        intent.putExtra("action", action);
+                        startActivity(intent);
+                    }
                 }
             });
 
@@ -104,6 +110,7 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
                         ActionModel action = new ActionModel();
                         action.setNavigatorType(NavigatorType.BYPRODUCTTYPE);
                         action.setProductType((String) view.getTag());
+                        action.setTitle((String) view.getTag());
                         intent.putExtra("action", action);
                         startActivity(intent);
                     }

@@ -19,7 +19,6 @@ import com.ws.apple.ayuep.dao.ProductDBModelDao;
 import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.model.ActionModel;
 import com.ws.apple.ayuep.model.NavigatorType;
-import com.ws.apple.ayuep.ui.order.CreateOrderAcitvity;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -42,6 +41,7 @@ public class ProductListActivity extends BaseActivity {
 
     private void initView() {
         ActionModel action = (ActionModel) getIntent().getSerializableExtra("action");
+        setTitle(action.getTitle());
         try {
             if (action.getNavigatorType() == NavigatorType.BYPRODUCTTYPE) {
                 mProducts = new ProductDBModelDao(this).queryByProductType(action.getProductType());
@@ -57,10 +57,11 @@ public class ProductListActivity extends BaseActivity {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(ProductListActivity.this, CreateOrderAcitvity.class);
+                Intent intent = new Intent(ProductListActivity.this, ProductDetailActivity.class);
                 ActionModel action = new ActionModel();
                 action.setNavigatorType(NavigatorType.BYPRODUCTID);
-                action.setStoreId(mProducts.get(i).getProductId());
+                action.setProductId(mProducts.get(i).getProductId());
+                action.setTitle("套系详情");
                 intent.putExtra("action", action);
                 startActivity(intent);
             }

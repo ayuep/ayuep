@@ -42,6 +42,7 @@
                     android:layout_marginLeft="50dp"
                     android:textColor="@color/colorWhiteColor"
                     android:textSize="45dp"
+                    android:layout_marginBottom="8dp"
                     android:text="摄影分类"/>
             </LinearLayout>
         </LinearLayout>

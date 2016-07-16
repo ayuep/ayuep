@@ -5,7 +5,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.ws.apple.ayuep.entity.ProductDBModel;
+import com.ws.apple.ayuep.entity.SettingModel;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -46,6 +49,14 @@ public class ProductDBModelDao {
 
     public List<ProductDBModel> query() throws SQLException {
         List<ProductDBModel> result = mProductDbModelDao.queryForAll();
+        return result;
+    }
+
+    public ProductDBModel queryByProductId(String productId) throws SQLException {
+        QueryBuilder<ProductDBModel, ?> builder = mProductDbModelDao.queryBuilder();
+        builder.where().eq("productId", productId);
+        PreparedQuery<ProductDBModel> preparedQuery = builder.prepare();
+        ProductDBModel result = mProductDbModelDao.queryForFirst(preparedQuery);
         return result;
     }
 
