@@ -17,7 +17,7 @@ import com.ws.apple.ayuep.R;
 
 import java.util.Locale;
 
-public class CreateOrder extends AppCompatActivity {
+public class CreateOrderAcitvity extends AppCompatActivity {
 
 
     @Override

@@ -3,8 +3,9 @@
     package="com.ws.apple.ayuep">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />"
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    "
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".AYuePApplication"
@@ -20,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.product.ProductsActivity"></activity>
+        <activity android:name=".ui.product.ProductDetailActivity"></activity>
+        <activity android:name=".ui.order.CreateOrderAcitvity"></activity>
     </application>
 
 </manifest>

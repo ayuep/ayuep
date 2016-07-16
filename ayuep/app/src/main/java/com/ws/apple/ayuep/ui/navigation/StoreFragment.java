@@ -1,10 +1,12 @@
 package com.ws.apple.ayuep.ui.navigation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -17,6 +19,9 @@ import com.ws.apple.ayuep.ViewHolder;
 import com.ws.apple.ayuep.dao.DataCacheManager;
 import com.ws.apple.ayuep.dao.StoreInfoDBModelDao;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
+import com.ws.apple.ayuep.model.ActionModel;
+import com.ws.apple.ayuep.model.NavigatorType;
+import com.ws.apple.ayuep.ui.product.ProductsActivity;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -54,6 +59,17 @@ public class StoreFragment extends BaseFragment {
         mListView = (ListView) v.findViewById(R.id.id_store_list_view);
         mAdapter = new StoreItemAdapter(getActivity(), mStores);
         mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(), ProductsActivity.class);
+                ActionModel action = new ActionModel();
+                action.setNavigatorType(NavigatorType.BYSTOREID);
+                action.setStoreId(mStores.get(i).getStoreId());
+                intent.putExtra("action", action);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getData() {

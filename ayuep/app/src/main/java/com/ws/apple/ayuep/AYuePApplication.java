@@ -16,6 +16,9 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.util.Locale;
 
+import static com.nostra13.universalimageloader.core.assist.ImageScaleType.EXACTLY_STRETCHED;
+import static com.nostra13.universalimageloader.core.assist.ImageScaleType.NONE_SAFE;
+
 public class AYuePApplication extends Application {
 
     private String TAG = AYuePApplication.class.getName();
@@ -39,6 +42,7 @@ public class AYuePApplication extends Application {
         DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
+                .imageScaleType(EXACTLY_STRETCHED)
                 .build();
         ImageLoaderConfiguration config = new  ImageLoaderConfiguration.Builder(this)
                 .defaultDisplayImageOptions(displayImageOptions)

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorCommonBackGroud"
 
-    tools:context="com.ws.apple.ayuep.ui.order.RegisterCustomer">
+    tools:context="com.ws.apple.ayuep.ui.order.RegisterCustomerActivity">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

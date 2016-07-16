@@ -1,6 +1,7 @@
 package com.ws.apple.ayuep.ui.navigation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -16,9 +17,12 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.ws.apple.ayuep.BaseFragment;
 import com.ws.apple.ayuep.NetworkImageHolderView;
 import com.ws.apple.ayuep.R;
+import com.ws.apple.ayuep.model.ActionModel;
 import com.ws.apple.ayuep.model.ConfigurationModel;
+import com.ws.apple.ayuep.model.NavigatorType;
 import com.ws.apple.ayuep.model.ProductTypeModel;
 import com.ws.apple.ayuep.model.RotationModel;
+import com.ws.apple.ayuep.ui.product.ProductsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,11 +79,35 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
                     .setPageIndicator(new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused});
             mContentView = (LinearLayout) view.findViewById(R.id.id_dashboard_content_view);
             mConvenientBanner.startTurning(3000);
+            mConvenientBanner.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    Intent intent = new Intent(getActivity(), ProductsActivity.class);
+                    ActionModel action = new ActionModel();
+                    action.setNavigatorType(NavigatorType.BYPRODUCTID);
+                    action.setProductId(mConfiguration.getBanners().get(position).getProductId());
+                    intent.putExtra("action", action);
+                    startActivity(intent);
+                }
+            });
 
             for (ProductTypeModel productType: mConfiguration.getProductTypes()) {
                 View view = getActivity().getLayoutInflater().inflate(R.layout.type_list_item, null);
                 TextView textView = (TextView) view.findViewById(R.id.id_type_name);
                 textView.setText(productType.getProductTypeName());
+                view.setTag(productType.getProductTypeName());
+                view.setClickable(true);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), ProductsActivity.class);
+                        ActionModel action = new ActionModel();
+                        action.setNavigatorType(NavigatorType.BYPRODUCTTYPE);
+                        action.setProductType((String) view.getTag());
+                        intent.putExtra("action", action);
+                        startActivity(intent);
+                    }
+                });
                 mContentView.addView(view);
             }
         }
@@ -91,6 +119,8 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
                 mParentActivity.refresh();
             }
         });
+
+
     }
 
     private void getData() {

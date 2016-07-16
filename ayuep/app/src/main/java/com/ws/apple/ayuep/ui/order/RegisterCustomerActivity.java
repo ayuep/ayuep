@@ -1,7 +1,5 @@
 package com.ws.apple.ayuep.ui.order;
 
-import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +12,7 @@ import com.ws.apple.ayuep.R;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterCustomer extends BaseActivity {
+public class RegisterCustomerActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +25,7 @@ public class RegisterCustomer extends BaseActivity {
                 EditText customerNameEditText = (EditText) findViewById(R.id.id_customer_name);
                 boolean IsPhoneNumber = IsPhoneNumberValid(customerNameEditText.getText().toString());
                 String output = "number is "+ IsPhoneNumber;
-                Toast.makeText(RegisterCustomer.this,output,Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterCustomerActivity.this,output,Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -52,7 +50,7 @@ public class RegisterCustomer extends BaseActivity {
         EditText customerNameEditText = (EditText) findViewById(R.id.id_customer_name);
         boolean IsPhoneNumber = IsPhoneNumberValid(customerNameEditText.getText().toString());
         String output = "number is "+ IsPhoneNumber;
-        Toast.makeText(RegisterCustomer.this,output,Toast.LENGTH_LONG).show();
+        Toast.makeText(RegisterCustomerActivity.this,output,Toast.LENGTH_LONG).show();
     }
 //    private class CostomerClickListener extends View.OnClickListener {
 //
@@ -61,7 +59,7 @@ public class RegisterCustomer extends BaseActivity {
 //            EditText customerNameEditText = (EditText) findViewById(R.id.id_customer_name);
 //            boolean IsPhoneNumber = IsPhoneNumberValid(customerNameEditText.getText().toString());
 //            String output = "number is "+ IsPhoneNumber;
-//            Toast.makeText(RegisterCustomer.this,output,Toast.LENGTH_LONG).show();
+//            Toast.makeText(RegisterCustomerActivity.this,output,Toast.LENGTH_LONG).show();
 //        }
 //    }
 }

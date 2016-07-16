@@ -16,6 +16,7 @@ public class StoreInfoDBModel implements Serializable {
     private int id;
 
     @DatabaseField(columnName = "storeId")
+    @SerializedName("StoreId")
     private String storeId;
 
     @DatabaseField(columnName = "storeName")
