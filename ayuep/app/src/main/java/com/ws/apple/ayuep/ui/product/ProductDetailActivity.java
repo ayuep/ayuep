@@ -1,11 +1,13 @@
 package com.ws.apple.ayuep.ui.product;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.ws.apple.ayuep.BaseActivity;
 import com.ws.apple.ayuep.NetworkImageHolderView;
 import com.ws.apple.ayuep.R;
@@ -27,7 +29,7 @@ public class ProductDetailActivity extends BaseActivity {
 
     private ConvenientBanner mConvenientBanner;
 
-    private List<String> mNetworkImages = new ArrayList<String>();
+    private ArrayList<String> mNetworkImages = new ArrayList<String>();
 
     private ProductDBModel mProduct;
 
@@ -53,6 +55,16 @@ public class ProductDetailActivity extends BaseActivity {
         }, mNetworkImages)
                 .setPointViewVisible(true)    //设置指示器是否可见
                 .setPageIndicator(new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused});
+
+        mConvenientBanner.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(ProductDetailActivity.this, PhotoViewActivity.class);
+                intent.putStringArrayListExtra("imgs", mNetworkImages);
+                intent.putExtra("position", position);
+                startActivity(intent);
+            }
+        });
 
         TextView productDescriptionTextView = (TextView) findViewById(R.id.id_product_description);
         productDescriptionTextView.setText(mProduct.getProductDescription());
@@ -88,5 +100,11 @@ public class ProductDetailActivity extends BaseActivity {
         for (String image : images) {
             mNetworkImages.add(image);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mConvenientBanner.setcurrentitem(data.getIntExtra("position", 0));
     }
 }

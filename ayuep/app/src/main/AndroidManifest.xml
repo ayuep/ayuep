@@ -24,6 +24,7 @@
         <activity android:name=".ui.product.ProductListActivity"></activity>
         <activity android:name=".ui.product.ProductDetailActivity"></activity>
         <activity android:name=".ui.order.CreateOrderAcitvity"></activity>
+        <activity android:name=".ui.product.PhotoViewActivity"></activity>
     </application>
 
 </manifest>
