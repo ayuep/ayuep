@@ -24,17 +24,19 @@ import com.ws.apple.ayuep.ui.order.CreateOrderAcitvity;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ProductsActivity extends BaseActivity {
+/**
+ * Created by Smith on 2016/7/16.
+ */
+public class ProductListActivity extends BaseActivity {
 
     private List<ProductDBModel> mProducts;
 
     private GridView mGridView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_products);
-        
+        setContentView(R.layout.activity_product_list);
+
         initView();
     }
 
@@ -55,7 +57,7 @@ public class ProductsActivity extends BaseActivity {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(ProductsActivity.this, CreateOrderAcitvity.class);
+                Intent intent = new Intent(ProductListActivity.this, CreateOrderAcitvity.class);
                 ActionModel action = new ActionModel();
                 action.setNavigatorType(NavigatorType.BYPRODUCTID);
                 action.setStoreId(mProducts.get(i).getProductId());
@@ -75,7 +77,7 @@ public class ProductsActivity extends BaseActivity {
         public View getView(int i, View view, ViewGroup viewGroup) {
             ProductDBModel prodcut = mProducts.get(i);
 
-            ViewHolder holder = ViewHolder.get(ProductsActivity.this, view, viewGroup, R.layout.product_grid_item);
+            ViewHolder holder = ViewHolder.get(ProductListActivity.this, view, viewGroup, R.layout.product_grid_item);
             holder.setText(R.id.id_product_item_price, Double.toString(prodcut.getPrice()));
             String[] images = prodcut.getImages().split(",");
 

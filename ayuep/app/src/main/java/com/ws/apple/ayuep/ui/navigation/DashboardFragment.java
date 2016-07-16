@@ -22,7 +22,7 @@ import com.ws.apple.ayuep.model.ConfigurationModel;
 import com.ws.apple.ayuep.model.NavigatorType;
 import com.ws.apple.ayuep.model.ProductTypeModel;
 import com.ws.apple.ayuep.model.RotationModel;
-import com.ws.apple.ayuep.ui.product.ProductsActivity;
+import com.ws.apple.ayuep.ui.product.ProductListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +82,7 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
             mConvenientBanner.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    Intent intent = new Intent(getActivity(), ProductsActivity.class);
+                    Intent intent = new Intent(getActivity(), ProductListActivity.class);
                     ActionModel action = new ActionModel();
                     action.setNavigatorType(NavigatorType.BYPRODUCTID);
                     action.setProductId(mConfiguration.getBanners().get(position).getProductId());
@@ -100,7 +100,7 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), ProductsActivity.class);
+                        Intent intent = new Intent(getActivity(), ProductListActivity.class);
                         ActionModel action = new ActionModel();
                         action.setNavigatorType(NavigatorType.BYPRODUCTTYPE);
                         action.setProductType((String) view.getTag());

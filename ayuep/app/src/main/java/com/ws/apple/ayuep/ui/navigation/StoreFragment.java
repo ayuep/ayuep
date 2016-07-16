@@ -10,18 +10,16 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ws.apple.ayuep.BaseFragment;
 import com.ws.apple.ayuep.CommonAdapter;
 import com.ws.apple.ayuep.R;
 import com.ws.apple.ayuep.ViewHolder;
-import com.ws.apple.ayuep.dao.DataCacheManager;
 import com.ws.apple.ayuep.dao.StoreInfoDBModelDao;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
 import com.ws.apple.ayuep.model.ActionModel;
 import com.ws.apple.ayuep.model.NavigatorType;
-import com.ws.apple.ayuep.ui.product.ProductsActivity;
+import com.ws.apple.ayuep.ui.product.ProductListActivity;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -62,7 +60,7 @@ public class StoreFragment extends BaseFragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), ProductsActivity.class);
+                Intent intent = new Intent(getActivity(), ProductListActivity.class);
                 ActionModel action = new ActionModel();
                 action.setNavigatorType(NavigatorType.BYSTOREID);
                 action.setStoreId(mStores.get(i).getStoreId());
