@@ -107,7 +107,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@color/colorCommonBackGroud">
+        android:background="@color/colorCommonBackgroud">
 
         <ImageButton
             android:layout_width="wrap_content"

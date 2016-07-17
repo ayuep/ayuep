@@ -113,7 +113,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
                 }
                 transaction.replace(R.id.tb, mMyInfoFragment);
                 setTitle(R.string.navigation_my_info);
-                findViewById(R.id.tb).setBackgroundResource(R.color.colorWhiteColor);
+                findViewById(R.id.tb).setBackgroundResource(R.color.colorCommonBackgroud);
                 break;
             default:
                 break;

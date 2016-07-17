@@ -1,12 +1,22 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorCommonBackgroud">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="this is my info" />
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorWhiteColor">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:textColor="@color/colorTitle"
+            android:text="我是老板"
+            android:layout_marginLeft="16dp"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
 
 </FrameLayout>
