@@ -8,4 +8,5 @@ public enum NavigatorType {
         BYPRODUCTID,
         BYSTOREID,
         BYPRODUCTTYPE,
+        BYCUSTOMER,
 }
