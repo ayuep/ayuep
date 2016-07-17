@@ -2,6 +2,7 @@ package com.ws.apple.ayuep.ui.navigation;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.model.ConfigurationModel;
+import com.ws.apple.ayuep.model.OrderModel;
 import com.ws.apple.ayuep.proxy.ConfigurationProxy;
 import com.ws.apple.ayuep.proxy.DeviceProxy;
 import com.ws.apple.ayuep.proxy.ProductProxy;
@@ -25,6 +27,8 @@ import com.ws.apple.ayuep.proxy.StoreProxy;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class BottomNavigationActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
@@ -38,6 +42,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
     private ConfigurationModel mConfiguration;
     private boolean mGetProductSuccess;
     private boolean mGetStoreSuccess;
+    private boolean mGetConfigurationSuccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,12 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
 
         mBottomNavigationBar.setTabSelectedListener(this);
         setDefaultFragment();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     private void setDefaultFragment() {
@@ -102,10 +113,11 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
             case 2:
                 if (mOrderFragment == null) {
                     mOrderFragment = OrderFragment.getInstance();
+                    mOrderFragment.setParentActivity(this);
                 }
                 transaction.replace(R.id.tb, mOrderFragment);
                 setTitle(R.string.navigation_my_order);
-                findViewById(R.id.tb).setBackgroundResource(R.color.colorWhiteColor);
+                findViewById(R.id.tb).setBackgroundResource(R.color.colorCommonBackgroud);
                 break;
             case 3:
                 if (mMyInfoFragment == null) {
@@ -133,6 +145,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
     }
 
     public void getData() {
+        showProgressDialog(false, "准备数据中...");
         new DeviceProxy().registerDevice(this, new DeviceAsyncHttpResponseHandler());
         new ConfigurationProxy().getConfiguration(this, new ConfigrationAsyncHttpResponseHandler());
         refresh();
@@ -151,12 +164,17 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         }
     }
 
+    private void prepareEvn() {
+        if (mGetProductSuccess && mGetStoreSuccess && mGetConfigurationSuccess) {
+            mProgressDialog.dismiss();
+        }
+    }
+
     private class StoreAsyncHttpResponseHandler extends BaseAsyncHttpResponseHandler {
 
         @Override
         public void onSuccess(String response) {
             mGetStoreSuccess = true;
-            checkGetDataSuccess();
             if (!TextUtils.isEmpty(response)) {
                 Gson gson = new Gson();
 
@@ -169,15 +187,23 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
                     storeInfoDBModelDao.deleteAllStores();
                     storeInfoDBModelDao.insert(stores);
 
-//                    Toast.makeText(mContext, response, Toast.LENGTH_LONG).show();
 
                     int d = storeInfoDBModelDao.query().size();
                     Log.d("Richard", "total count: " + d);
                 } catch (SQLException e) {
                     Log.d("1", e.getMessage());
                 }
-
             }
+            checkGetDataSuccess();
+            prepareEvn();
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
+            super.onFailure(statusCode, headers, responseBytes, throwable);
+            mGetStoreSuccess = true;
+            checkGetDataSuccess();
+            prepareEvn();
         }
     }
 
@@ -186,7 +212,6 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         @Override
         public void onSuccess(String response) {
             mGetProductSuccess = true;
-            checkGetDataSuccess();
             if (!TextUtils.isEmpty(response)) {
                 Gson gson = new Gson();
 
@@ -207,6 +232,16 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
                 }
 
             }
+            checkGetDataSuccess();
+            prepareEvn();
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
+            super.onFailure(statusCode, headers, responseBytes, throwable);
+            mGetProductSuccess = true;
+            checkGetDataSuccess();
+            prepareEvn();
         }
     }
 
@@ -224,6 +259,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
 
         @Override
         public void onSuccess(String response) {
+            mGetConfigurationSuccess = true;
             if (!TextUtils.isEmpty(response)) {
                 Gson gson = new Gson();
 
@@ -231,6 +267,14 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
                 mDashboardFragment.setmConfiguration(mConfiguration);
                 mDashboardFragment.initView();
             }
+            prepareEvn();
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
+            super.onFailure(statusCode, headers, responseBytes, throwable);
+            mGetConfigurationSuccess = true;
+            prepareEvn();
         }
 
     }

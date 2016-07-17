@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
@@ -46,6 +47,8 @@ public class OrderFragment extends BaseFragment {
 
     private View view;
 
+    private BottomNavigationActivity parentActivity;
+
     public static OrderFragment getInstance() {
         OrderFragment fragment = new OrderFragment();
         return fragment;
@@ -57,10 +60,15 @@ public class OrderFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        showProgressDialog(true, "获取订单中...");
+        refreshData();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_order_navigation, null);
-
-        refreshData();
         initView();
         return view;
     }
@@ -85,6 +93,10 @@ public class OrderFragment extends BaseFragment {
     private void refreshListView() {
         OrderItemAdapter adapter = (OrderItemAdapter) mOrderListView.getAdapter();
         adapter.notifyDataSetChanged();
+    }
+
+    public void setParentActivity(BottomNavigationActivity parentActivity) {
+        this.parentActivity = parentActivity;
     }
 
     private class OrderItemAdapter extends CommonAdapter<OrderModel> {
@@ -125,6 +137,7 @@ public class OrderFragment extends BaseFragment {
 
         @Override
         public void onSuccess(String response) {
+            Log.d("order", "refresh success");
             if (!TextUtils.isEmpty(response)) {
                 Gson gson = new Gson();
 
@@ -145,6 +158,14 @@ public class OrderFragment extends BaseFragment {
                 refreshListView();
             }
             mPtrFrameLayout.refreshComplete();
+            dismissProgressDialog();
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
+            Log.d("order", "refresh failed");
+            super.onFailure(statusCode, headers, responseBytes, throwable);
+            dismissProgressDialog();
         }
     }
 

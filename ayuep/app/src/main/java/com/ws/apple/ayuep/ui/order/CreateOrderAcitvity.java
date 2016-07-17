@@ -42,7 +42,7 @@ import java.util.logging.SimpleFormatter;
 
 import cz.msebera.android.httpclient.Header;
 
-public class CreateOrderAcitvity extends AppCompatActivity {
+public class CreateOrderAcitvity extends BaseActivity {
 
     private List<CustomerModel> mCustomer;
     private final int REQUESTCODE = 13;
@@ -78,6 +78,7 @@ public class CreateOrderAcitvity extends AppCompatActivity {
         }
     }
     private void initData() {
+        showProgressDialog(false, "获取您的信息中...");
         mProductId = getIntent().getStringExtra("productId");
         new CustomerProxy().getCustomer(this,new CustomerAsyncHttpResponseHandler());
     }
@@ -132,6 +133,7 @@ public class CreateOrderAcitvity extends AppCompatActivity {
             Toast.makeText(this, "预定时间必须晚于当前时间! ", Toast.LENGTH_LONG).show();
             return;
         }
+        showProgressDialog(false, "创建订单中...");
         OrderModel order = new OrderModel();
         order.setCustomerId(mCustomer.get(0).getCustomerId());
         order.setProductId(mProductId);
@@ -180,6 +182,13 @@ public class CreateOrderAcitvity extends AppCompatActivity {
             catch (Exception e) {
                 Log.d("APIERROR",e.getMessage().toString());
             }
+            dismissProgressDialog();
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
+            super.onFailure(statusCode, headers, responseBytes, throwable);
+            dismissProgressDialog();
         }
     }
 
@@ -187,6 +196,7 @@ public class CreateOrderAcitvity extends AppCompatActivity {
 
         @Override
         public void onSuccess(String response) {
+            dismissProgressDialog();
             Toast.makeText(AYuePApplication.getmApplicationContext(), "预约成功! 祝您生活愉快。", Toast.LENGTH_LONG).show();
             finish();
         }
@@ -194,6 +204,7 @@ public class CreateOrderAcitvity extends AppCompatActivity {
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
             super.onFailure(statusCode, headers, responseBytes, throwable);
+            dismissProgressDialog();
             Log.d("111", "111");
         }
     }
