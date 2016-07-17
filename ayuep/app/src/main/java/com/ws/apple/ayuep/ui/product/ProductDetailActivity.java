@@ -2,12 +2,16 @@ package com.ws.apple.ayuep.ui.product;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.ws.apple.ayuep.BaseActivity;
 import com.ws.apple.ayuep.NetworkImageHolderView;
 import com.ws.apple.ayuep.R;
@@ -15,11 +19,12 @@ import com.ws.apple.ayuep.dao.ProductDBModelDao;
 import com.ws.apple.ayuep.dao.StoreInfoDBModelDao;
 import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
+import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.model.ActionModel;
+import com.ws.apple.ayuep.proxy.ProductProxy;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by apple on 16/7/16.
@@ -34,6 +39,8 @@ public class ProductDetailActivity extends BaseActivity {
     private ProductDBModel mProduct;
 
     private StoreInfoDBModel mStore;
+
+    private TextView mSalesTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +79,8 @@ public class ProductDetailActivity extends BaseActivity {
         TextView productPriceTextView = (TextView) findViewById(R.id.id_product_price);
         productPriceTextView.setText("¥ " + Double.toString(mProduct.getPrice()));
 
-        TextView orderCountTextView = (TextView) findViewById(R.id.id_order_count);
-        orderCountTextView.setText("销售量: " + "0");
+        mSalesTextView = (TextView) findViewById(R.id.id_order_count);
+        mSalesTextView.setText("销售量: " + "0");
 
         TextView storeNameTextView = (TextView) findViewById(R.id.id_store_name);
         storeNameTextView.setText(mStore.getStoreName());
@@ -100,11 +107,26 @@ public class ProductDetailActivity extends BaseActivity {
         for (String image : images) {
             mNetworkImages.add(image);
         }
+
+        new ProductProxy().getProductSales(this, mProduct.getProductId(), new ProductAysncResponseHandler());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mConvenientBanner.setcurrentitem(data.getIntExtra("position", 0));
+    }
+
+    private class ProductAysncResponseHandler extends BaseAsyncHttpResponseHandler {
+
+        @Override
+        public void onSuccess(String response) {
+            if (!TextUtils.isEmpty(response)) {
+                Gson gson = new Gson();
+
+                JsonObject result = gson.fromJson(response, new TypeToken<JsonObject>(){}.getType());
+                mSalesTextView.setText("销售量: " + result.get("sales"));
+            }
+        }
     }
 }

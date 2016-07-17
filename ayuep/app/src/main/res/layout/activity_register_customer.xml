@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorCommonBackGroud"
+    android:background="@color/colorCommonBackgroud"
 
     tools:context="com.ws.apple.ayuep.ui.order.RegisterCustomerActivity">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:background="@color/colorCommonBackGroud">
+        android:background="@color/colorCommonBackgroud">
         <LinearLayout
             android:id="@+id/phone"
             android:layout_width="match_parent"

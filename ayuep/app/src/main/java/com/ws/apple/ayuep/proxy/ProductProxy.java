@@ -20,4 +20,10 @@ public class ProductProxy {
 
         HttpUtil.get(context, url, null, handler);
     }
+
+    public void getProductSales(Context context, String productId, BaseAsyncHttpResponseHandler handler) {
+        String url = baseUrl + "/api/products?productId=" + productId;
+
+        HttpUtil.get(context, url, null, handler);
+    }
 }
