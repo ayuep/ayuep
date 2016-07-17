@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -21,7 +22,9 @@ import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.model.ActionModel;
+import com.ws.apple.ayuep.model.NavigatorType;
 import com.ws.apple.ayuep.proxy.ProductProxy;
+import com.ws.apple.ayuep.ui.order.CreateOrderAcitvity;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -69,7 +72,7 @@ public class ProductDetailActivity extends BaseActivity {
                 Intent intent = new Intent(ProductDetailActivity.this, PhotoViewActivity.class);
                 intent.putStringArrayListExtra("imgs", mNetworkImages);
                 intent.putExtra("position", position);
-                startActivity(intent);
+                startActivityForResult(intent, RESULT_OK);
             }
         });
 
@@ -109,6 +112,12 @@ public class ProductDetailActivity extends BaseActivity {
         }
 
         new ProductProxy().getProductSales(this, mProduct.getProductId(), new ProductAysncResponseHandler());
+    }
+
+    public void onOrderClick(View view) {
+        Intent intent = new Intent(this, CreateOrderAcitvity.class);
+        intent.putExtra("productId", mProduct.getProductId());
+        startActivity(intent);
     }
 
     @Override

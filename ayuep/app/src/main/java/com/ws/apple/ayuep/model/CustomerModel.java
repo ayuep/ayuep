@@ -2,11 +2,13 @@ package com.ws.apple.ayuep.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by apple on 16/7/9.
  */
 
-public class CustomerModel {
+public class CustomerModel implements Serializable {
 
     @SerializedName("CustomerId")
     private String customerId;

@@ -19,11 +19,6 @@ import com.ws.apple.ayuep.dao.ProductDBModelDao;
 import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.model.ActionModel;
 import com.ws.apple.ayuep.model.NavigatorType;
-<<<<<<< Updated upstream
-=======
-import com.ws.apple.ayuep.ui.order.CreateOrderAcitvity;
-import com.ws.apple.ayuep.ui.order.RegisterCustomerActivity;
->>>>>>> Stashed changes
 
 import java.sql.SQLException;
 import java.util.List;
@@ -84,7 +79,7 @@ public class ProductListActivity extends BaseActivity {
             ProductDBModel prodcut = mProducts.get(i);
 
             ViewHolder holder = ViewHolder.get(ProductListActivity.this, view, viewGroup, R.layout.product_grid_item);
-            holder.setText(R.id.id_product_item_price, Double.toString(prodcut.getPrice()));
+            holder.setText(R.id.id_product_item_price, "¥ " + Double.toString(prodcut.getPrice()));
             String[] images = prodcut.getImages().split(",");
 
             ImageView imageView = (ImageView) holder.getView(R.id.id_product_image);

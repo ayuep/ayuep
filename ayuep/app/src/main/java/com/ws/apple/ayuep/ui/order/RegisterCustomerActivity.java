@@ -34,13 +34,12 @@ public class RegisterCustomerActivity extends BaseActivity {
 
     }
 
-    private boolean IsPhoneNumberValid(String PhoneNumber ){
+    private boolean isPhoneNumberValid(String PhoneNumber ){
         boolean flag = false;
         String regex = "[1][358]\\d{9}";
         CharSequence inputStr = PhoneNumber;
 
         Pattern pattern = Pattern.compile(regex);
-
         Matcher matcher = pattern.matcher(inputStr);
 
         if (matcher.matches() ) {
@@ -50,34 +49,41 @@ public class RegisterCustomerActivity extends BaseActivity {
         return flag;
     }
 
-    public void submitCustomer() {
-        EditText customerNameEditText = (EditText) findViewById(R.id.id_customer_name);
-        EditText customerPhoneEditText = (EditText) findViewById(R.id.id_customer_name);
-        boolean IsPhoneNumber = IsPhoneNumberValid(customerNameEditText.getText().toString());
-        String output = "number is "+ IsPhoneNumber;
-        Toast.makeText(RegisterCustomerActivity.this,output,Toast.LENGTH_LONG).show();
-    }
-    private void CheckFormat() {
-        EditText customerNameEditText = (EditText) findViewById(R.id.id_customer_name);
-        EditText customerPhoneEditText = (EditText) findViewById(R.id.id_customer_phone);
-        EditText customerAddressEditText = (EditText) findViewById(R.id.id_customer_address);
-        boolean IsPhoneNumber = IsPhoneNumberValid(customerNameEditText.getText().toString());
-        String output = "number is "+ IsPhoneNumber;
-        Toast.makeText(RegisterCustomerActivity.this,output,Toast.LENGTH_LONG).show();
-//        CustomerModel customerModel = new CustomerModel();
-        if(mCustomer==null) {
-            mCustomer = new CustomerModel();
-        }
-        mCustomer.setCustomerName(customerNameEditText.getText().toString());
-        mCustomer.setPhoneNumber(customerPhoneEditText.getText().toString());
-        mCustomer.setAddress(customerAddressEditText.getText().toString());
-//        mCustomer.add(customerModel);
-    }
     private class CostomerClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
-            CheckFormat();
+            EditText customerPhoneEditText = (EditText) findViewById(R.id.id_customer_phone);
+            String phoneNumber = customerPhoneEditText.getText().toString();
+
+            EditText customerNameEditText = (EditText) findViewById(R.id.id_customer_name);
+            String customerName = customerNameEditText.getText().toString();
+
+            EditText customerAddressEditText = (EditText) findViewById(R.id.id_customer_address);
+            String customerAddress = customerAddressEditText.getText().toString();
+
+            if (TextUtils.isEmpty(customerName)) {
+                Toast.makeText(RegisterCustomerActivity.this, "请输入姓名! ", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (!isPhoneNumberValid(phoneNumber)) {
+                Toast.makeText(RegisterCustomerActivity.this, "请输入正确的电话号码! ", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (TextUtils.isEmpty(customerAddress)) {
+                Toast.makeText(RegisterCustomerActivity.this, "请输入地址! ", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+
+            if(mCustomer==null) {
+                mCustomer = new CustomerModel();
+            }
+            mCustomer.setCustomerName(customerNameEditText.getText().toString());
+            mCustomer.setPhoneNumber(phoneNumber);
+            mCustomer.setAddress(customerAddressEditText.getText().toString());
             new CustomerProxy().registerCustomer(RegisterCustomerActivity.this,mCustomer,new RegisterAsyncHttpResponseHandler());
 
         }
@@ -92,7 +98,7 @@ public class RegisterCustomerActivity extends BaseActivity {
                 mCustomer =gson.fromJson(response, new TypeToken<CustomerModel>() {
                 }.getType());
                 Log.d("getcustomer","success");
-                if(mCustomer.getCustomerId()!=null) {
+                if(mCustomer.getCustomerId() != null) {
                     Intent intent = new Intent();
                     intent.putExtra("customer_data",(Serializable)mCustomer);
                     setResult(RESULT_OK,intent);

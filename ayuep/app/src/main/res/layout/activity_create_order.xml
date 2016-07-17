@@ -5,74 +5,127 @@ xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorCommonBackgroud">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="请核对下面信息:"
-        android:textSize="20dp"/>
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/id_create_order_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhiteColor">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
         <TextView
-            android:id="@+id/id_store_order_customer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="16dp"
-            android:text="wangyousfdsfdsafdsfdsfsdkljlkninlkfndslheng"
-            android:lines="1"
-            android:layout_toRightOf="@+id/id_store_order_customer_phone"
-            android:layout_marginRight="5dp"
-            android:layout_alignParentLeft="true"
-            android:textSize="20dp"
-            android:ellipsize="end"
-            android:maxWidth="200dp"/>
-
-        <TextView
-            android:id="@+id/id_store_order_customer_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="16dp"
-            android:text="188017615551"
-            android:lines="1"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="请核对下面信息:"
             android:textSize="20dp"/>
-        <TextView
-            android:id="@+id/id_store_order_customer_address"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="11111"
-            android:lines="1"
-            android:ellipsize="end"
-            android:textSize="20dp"
+            android:background="@color/colorWhiteColor">
+            <TextView
+                android:id="@+id/id_store_order_customer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:text="wangyousfdsfdsafdsfdsfsdkljlkninlkfndslheng"
+                android:lines="1"
+                android:layout_toRightOf="@+id/id_store_order_customer_phone"
+                android:layout_marginRight="5dp"
+                android:layout_alignParentLeft="true"
+                android:textSize="20dp"
+                android:ellipsize="end"
+                android:maxWidth="200dp"/>
+
+            <TextView
+                android:id="@+id/id_store_order_customer_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="16dp"
+                android:text="188017615551"
+                android:lines="1"
+                android:textSize="20dp"/>
+            <TextView
+                android:id="@+id/id_store_order_customer_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="11111"
+                android:lines="1"
+                android:ellipsize="end"
+                android:textSize="20dp"
+                android:background="@color/colorWhiteColor"
+                android:layout_below="@+id/id_store_order_customer_name"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="10dp"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/id_order_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/colorWhiteColor"
-            android:layout_below="@+id/id_store_order_customer_name"
-            android:layout_marginLeft="16dp"/>
-    </RelativeLayout>
+            android:layout_marginTop="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="预定日期:"
+                android:textSize="18dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"/>
+            <TextView
+                style="?android:attr/textViewStyle"
+                android:id="@+id/id_order_date_text"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginRight="16dp"
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:lines="1"
+                android:gravity="center_vertical"
+                android:background="@drawable/edit_frame_color" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/id_order_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhiteColor"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="预定时间:"
+                android:textSize="18dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"/>
+            <TextView
+                style="?android:attr/textViewStyle"
+                android:id="@+id/id_order_time_text"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginRight="16dp"
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:lines="1"
+                android:gravity="center_vertical"
+                android:background="@drawable/edit_frame_color" />
+        </LinearLayout>
 
-
-    <TextView
-        android:id="@+id/id_store_order_customer_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="11111"
-
-        android:lines="1"
-        android:ellipsize="end"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:textSize="20dp"/>
-
-    <DatePicker
-     android:id="@+id/dpPicker"
-     android:calendarViewShown="false"
-
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content" />
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="完成"
+            android:onClick="createOrder"/>
+    </LinearLayout>
 
 </LinearLayout>
 

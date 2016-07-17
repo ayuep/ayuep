@@ -15,18 +15,19 @@
             android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="请填写下面信息:"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:layout_marginLeft="8dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorWhiteColor"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="16dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -39,7 +40,7 @@
                     android:id="@+id/id_customer_name"
                     style="?android:attr/textViewStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginLeft="10dp"
                     android:textSize="20dp"
@@ -47,6 +48,7 @@
                     android:layout_gravity="center"
                     android:lines="1"
                     android:singleLine="true"
+                    android:gravity="center_vertical"
                     android:background="@drawable/edit_frame_color"
                     />
             </LinearLayout>
@@ -68,12 +70,13 @@
                     android:id="@+id/id_customer_phone"
                     android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_marginRight="16dp"
                     android:textSize="20dp"
                     android:layout_gravity="center"
                     android:lines="1"
                     android:singleLine="true"
+                    android:gravity="center_vertical"
                     android:inputType="number"
                     android:background="@drawable/edit_frame_color"
                     />

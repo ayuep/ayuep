@@ -24,8 +24,6 @@ public class CustomerProxy {
     public void registerCustomer(Context context,CustomerModel customerModel ,BaseAsyncHttpResponseHandler handler) {
         String url = baseUrl + "/api/customer";
 
-//        costomer.setDeviceIdentity(DataCacheManager.getDataCacheManager(context).getDeviceIdentity());
-//        costomer.setDeviceType("Android");
         Gson gson = new Gson();
         HttpUtil.post(context, url, gson.toJson(customerModel), handler);
     }

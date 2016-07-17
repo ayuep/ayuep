@@ -135,5 +135,6 @@
         android:textSize="20dp"
         android:text="预约"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/colorWhiteColor"/>
+        android:textColor="@color/colorWhiteColor"
+        android:onClick="onOrderClick"/>
 </RelativeLayout>

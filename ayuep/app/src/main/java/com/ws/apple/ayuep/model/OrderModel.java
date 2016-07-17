@@ -1,6 +1,7 @@
 package com.ws.apple.ayuep.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.ws.apple.ayuep.entity.ProductDBModel;
 
 import java.util.Date;
 
@@ -23,7 +24,9 @@ public class OrderModel {
     private String status;
 
     @SerializedName("ExpectedTime")
-    private Date expectedTime;
+    private String expectedTime;
+
+    private ProductDBModel product;
 
     public String getOrderId() {
         return orderId;
@@ -57,11 +60,19 @@ public class OrderModel {
         this.status = status;
     }
 
-    public Date getExpectedTime() {
+    public String getExpectedTime() {
         return expectedTime;
     }
 
-    public void setExpectedTime(Date expectedTime) {
+    public void setExpectedTime(String expectedTime) {
         this.expectedTime = expectedTime;
+    }
+
+    public ProductDBModel getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductDBModel product) {
+        this.product = product;
     }
 }
