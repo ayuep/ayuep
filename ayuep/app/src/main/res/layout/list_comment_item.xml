@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="1dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/customer_icon"/>
+        <TextView
+            android:id="@+id/id_customer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123"
+            android:textSize="15dp"
+            android:layout_marginLeft="4dp"
+            android:maxWidth="50dp"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_gravity="bottom"
+            android:textColor="@color/colorValue"/>
+        <RatingBar
+            android:id="@+id/id_product_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_gravity="bottom"
+            android:rating="5.0"
+            style="@style/Base.Widget.AppCompat.RatingBar.Small"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/id_comment_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/colorValue"/>
+
+    <TextView
+        android:id="@+id/id_comment_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="12345"
+        android:textColor="@color/colorTitle"
+        android:textSize="18dp"/>
+
+</LinearLayout>

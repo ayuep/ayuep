@@ -24,6 +24,7 @@ import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.model.ActionModel;
 import com.ws.apple.ayuep.model.NavigatorType;
 import com.ws.apple.ayuep.proxy.ProductProxy;
+import com.ws.apple.ayuep.ui.order.CommentsActivity;
 import com.ws.apple.ayuep.ui.order.CreateOrderAcitvity;
 
 import java.sql.SQLException;
@@ -116,6 +117,12 @@ public class ProductDetailActivity extends BaseActivity {
 
     public void onOrderClick(View view) {
         Intent intent = new Intent(this, CreateOrderAcitvity.class);
+        intent.putExtra("productId", mProduct.getProductId());
+        startActivity(intent);
+    }
+
+    public void goToComments(View view) {
+        Intent intent = new Intent(this, CommentsActivity.class);
         intent.putExtra("productId", mProduct.getProductId());
         startActivity(intent);
     }

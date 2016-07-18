@@ -119,10 +119,11 @@
             </LinearLayout>
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:background="@color/colorCommonBackgroud"
                 android:text="查看评价"
-                android:textSize="18dp" />
+                android:textSize="18dp"
+                android:onClick="goToComments"/>
 
         </LinearLayout>
     </ScrollView>

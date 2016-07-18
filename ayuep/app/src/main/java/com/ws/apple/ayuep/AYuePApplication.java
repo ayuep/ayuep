@@ -38,7 +38,7 @@ public class AYuePApplication extends Application {
 
     private void init() {
         // register crash handler.
-        CrashHandler.getInstance();
+//        CrashHandler.getInstance();
         DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
