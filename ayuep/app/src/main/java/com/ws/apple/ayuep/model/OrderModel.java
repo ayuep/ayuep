@@ -3,13 +3,14 @@ package com.ws.apple.ayuep.model;
 import com.google.gson.annotations.SerializedName;
 import com.ws.apple.ayuep.entity.ProductDBModel;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by apple on 16/7/9.
  */
 
-public class OrderModel {
+public class OrderModel implements Serializable {
 
     @SerializedName("OrderId")
     private String orderId;

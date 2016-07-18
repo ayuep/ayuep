@@ -1,12 +1,14 @@
 package com.ws.apple.ayuep.ui.navigation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -23,6 +25,7 @@ import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.model.OrderModel;
 import com.ws.apple.ayuep.proxy.OrderProxy;
+import com.ws.apple.ayuep.ui.order.CommentActivity;
 import com.ws.apple.ayuep.util.DateUtil;
 import com.ws.apple.ayuep.util.StringUtil;
 
@@ -107,7 +110,7 @@ public class OrderFragment extends BaseFragment {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            OrderModel order = getItem(i);
+            final OrderModel order = getItem(i);
             ProductDBModel product = order.getProduct();
 
             ViewHolder holder = ViewHolder.get(getActivity(), view, viewGroup, R.layout.list_customer_order_item);
@@ -127,6 +130,15 @@ public class OrderFragment extends BaseFragment {
 
             View commentContent = holder.getView(R.id.id_order_comment_content);
             commentContent.setVisibility(order.getStatus().equals("WAITINGFORCOMMENTS") ? View.VISIBLE : View.GONE);
+            Button commentbutton = (Button) holder.getView(R.id.id_order_comments_button);
+            commentbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), CommentActivity.class);
+                    intent.putExtra("order", order);
+                    startActivity(intent);
+                }
+            });
 
             return holder.getConvertView();
         }

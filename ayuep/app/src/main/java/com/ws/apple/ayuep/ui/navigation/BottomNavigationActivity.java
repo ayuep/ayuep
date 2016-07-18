@@ -161,6 +161,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
     private void checkGetDataSuccess() {
         if (mGetProductSuccess && mGetStoreSuccess) {
             mDashboardFragment.getmPtrFrameLayout().refreshComplete();
+            mDashboardFragment.initView();
         }
     }
 

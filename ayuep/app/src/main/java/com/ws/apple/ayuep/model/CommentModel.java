@@ -21,13 +21,16 @@ public class CommentModel {
     private String comment;
 
     @SerializedName("CreatedTime")
-    private Date createdTime;
+    private String createdTime;
 
     @SerializedName("Customer")
     private CustomerModel customer;
 
     @SerializedName("Product")
     private ProductDBModel product;
+
+    @SerializedName("OrderId")
+    private String orderId;
 
     public String getCommentId() {
         return commentId;
@@ -53,11 +56,11 @@ public class CommentModel {
         this.comment = comment;
     }
 
-    public Date getCreatedTime() {
+    public String getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(Date createdTime) {
+    public void setCreatedTime(String createdTime) {
         this.createdTime = createdTime;
     }
 
@@ -75,5 +78,13 @@ public class CommentModel {
 
     public void setProduct(ProductDBModel product) {
         this.product = product;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }

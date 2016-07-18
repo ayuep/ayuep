@@ -26,6 +26,7 @@
         <activity android:name=".ui.order.CreateOrderAcitvity"></activity>
         <activity android:name=".ui.product.PhotoViewActivity"></activity>
         <activity android:name=".ui.order.RegisterCustomerActivity"></activity>
+        <activity android:name=".ui.order.CommentActivity"></activity>
     </application>
 
 </manifest>
