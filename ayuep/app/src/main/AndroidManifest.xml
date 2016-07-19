@@ -29,6 +29,7 @@
         <activity android:name=".ui.order.CommentActivity"></activity>
         <activity android:name=".ui.order.CommentsActivity"></activity>
         <activity android:name=".ui.store.StoreActivity"></activity>
+        <activity android:name=".ui.store.StoreInfoActivity"></activity>
     </application>
 
 </manifest>
