@@ -2,6 +2,7 @@ package com.ws.apple.ayuep.dao;
 
 import android.content.Context;
 import android.database.SQLException;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -19,6 +20,8 @@ public class DataCacheManager {
     private static DataCacheManager instance;
 
     private String deviceIdentity;
+
+    private String storeId;
     
     public static DataCacheManager getDataCacheManager(Context context) {
         if (instance == null) {
@@ -65,4 +68,25 @@ public class DataCacheManager {
     }
 
 
+    public String getStoreId(Context context) {
+        if (TextUtils.isEmpty(this.storeId)) {
+            try {
+                SettingModel storeIdSetting = new SettingModelDao(context).query(Constants.SettingKeyCurrentStoreId);
+                if (storeIdSetting != null) {
+                    this.storeId = storeIdSetting.getValue();
+                }
+            } catch (java.sql.SQLException e) {
+                Log.d("AYueP", e.getMessage());
+            }
+        }
+        return storeId;
+    }
+
+    public void setStoreId(Context context, String storeId) {
+        this.storeId = storeId;
+        SettingModel settingModel = new SettingModel();
+        settingModel.setKey(Constants.SettingKeyCurrentStoreId);
+        settingModel.setValue(storeId);
+        new SettingModelDao(context).insert(settingModel);
+    }
 }

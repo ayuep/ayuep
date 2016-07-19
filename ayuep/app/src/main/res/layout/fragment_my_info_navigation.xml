@@ -5,11 +5,11 @@
     android:background="@color/colorCommonBackgroud">
 
     <LinearLayout
+        android:id="@+id/id_go_to_my_store"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
-        android:background="@color/colorWhiteColor"
-        android:onClick="goToMyStore">
+        android:background="@color/colorWhiteColor">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
