@@ -1,4 +1,4 @@
-/*
+
 package com.ws.apple.ayuep.ui.store;
 
 import android.app.Activity;
@@ -19,27 +19,27 @@ public class StoreActivity extends Activity {
 
     public void onClick(View v) {
         Intent intent = new Intent();
+        Activity navigtor;
+        switch (v.getId()) {
+            case R.id.store :
+                navigtor = new StoreInfoActivity();
+                break;
+            case R.id.products :
+                navigtor = new StoreActivity();
+                break;
+            case R.id.orders :
+                navigtor = new StoreActivity();
+                break;
+            case R.id.back :
+                navigtor = new StoreActivity();
+                break;
+            default:
+                navigtor = new StoreActivity();
+                break;
+        }
 
-//        switch (v.getId()) {
-//            case R.id.store :
-//                navigtor = new StoreActivity();
-//                break;
-//            case R.id.products :
-//                navigtor = new StoreActivity();
-//                break;
-//            case R.id.orders :
-//                navigtor = new StoreActivity();
-//                break;
-//            case R.id.back :
-//                navigtor = new StoreActivity();
-//                break;
-//            default:
-//                navigtor = new StoreActivity();
-//                break;
-//        }
-
-        intent.setClass(this, StoreInfoActivity.class);
+        intent.setClass(this, navigtor.getClass());
         startActivity(intent);
     }
 }
-*/
+
