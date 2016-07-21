@@ -58,6 +58,22 @@ public class HttpUtil {
         }
     }
 
+    public static void post(Context context, String url, RequestParams entity, BaseAsyncHttpResponseHandler responseHandler) {
+        try {
+            getAsyncHttpClient(context).post(context, url, entity, responseHandler);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    public static void post(Context context, String url, HttpEntity entity, BaseAsyncHttpResponseHandler responseHandler) {
+        try {
+            getAsyncHttpClient(context).post(context, url, entity, CONTENT_TYPE, responseHandler);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
     public static void put(Context context, String url, String jsonParams, BaseAsyncHttpResponseHandler responseHandler) {
         try {
             HttpEntity entity = new StringEntity(jsonParams, "utf-8");

@@ -19,26 +19,24 @@ public class StoreActivity extends Activity {
 
     public void onClick(View v) {
         Intent intent = new Intent();
-        Activity navigtor;
         switch (v.getId()) {
             case R.id.store :
-                navigtor = new StoreInfoActivity();
+                intent.setClass(this, StoreInfoActivity.class);
                 break;
             case R.id.products :
-                navigtor = new StoreActivity();
+                intent.setClass(this, StoreInfoActivity.class);
                 break;
             case R.id.orders :
-                navigtor = new StoreActivity();
+                intent.setClass(this, StoreInfoActivity.class);
                 break;
             case R.id.back :
-                navigtor = new StoreActivity();
+                intent.setClass(this, StoreInfoActivity.class);
                 break;
             default:
-                navigtor = new StoreActivity();
+                intent.setClass(this, StoreInfoActivity.class);
                 break;
         }
 
-        intent.setClass(this, navigtor.getClass());
         startActivity(intent);
     }
 }

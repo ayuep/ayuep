@@ -2,19 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@color/colorCommonBackgroud">
-    
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/image_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhiteColor">
         <ImageView
+            android:id="@+id/id_store_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@color/colorDashboardBackgroud"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:src="@mipmap/default_image"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -24,38 +32,9 @@
             android:layout_centerVertical="true"
             android:text="@string/edit"
             android:textSize="20dp"
+            android:onClick="selectStoreImage"
             android:background="@color/colorWhiteColor"/>
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/store_name"
-        android:layout_below="@+id/image_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/colorWhiteColor">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/store_name"
-            android:textSize="35dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
-
-        <EditText
-            style="?android:attr/textViewStyle"
-            android:background="@null"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:textSize="30dp"
-            android:layout_alignRight="@+id/store_name"
-            android:layout_gravity="center"
-            android:lines="1"
-            />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/phone"
@@ -67,24 +46,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/store_phone"
-            android:textSize="35dp"
+            android:text="@string/store_name"
+            android:textSize="25dp"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"/>
 
         <EditText
+            android:id="@+id/id_store_name"
             style="?android:attr/textViewStyle"
-            android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:textSize="30dp"
-            android:layout_alignRight="@+id/store_name"
+            android:textSize="28dp"
             android:layout_gravity="center"
             android:lines="1"
-            />
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:background="@drawable/edit_frame_color" />
     </LinearLayout>
 
     <LinearLayout
@@ -96,24 +76,72 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/store_address"
-            android:textSize="35dp"
+            android:text="@string/store_phone"
+            android:textSize="25dp"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"/>
 
         <EditText
+            android:id="@+id/id_store_phone"
             style="?android:attr/textViewStyle"
-            android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:textSize="30dp"
-            android:layout_alignRight="@+id/store_name"
+            android:textSize="28dp"
             android:layout_gravity="center"
             android:lines="1"
-            />
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:background="@drawable/edit_frame_color" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/store_name"
+        android:layout_below="@+id/image_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWhiteColor">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/store_address"
+            android:textSize="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/id_store_address"
+            style="?android:attr/textViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:textSize="28dp"
+            android:lines="1"
+            android:layout_gravity="center"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:background="@drawable/edit_frame_color" />
+    </LinearLayout>
+
+        <Button
+            android:id="@+id/id_sunmit_button"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="提交"
+            android:textSize="20dp"
+            android:textColor="@color/colorWhiteColor"
+            android:background="@color/colorAccent"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp" />
+    </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

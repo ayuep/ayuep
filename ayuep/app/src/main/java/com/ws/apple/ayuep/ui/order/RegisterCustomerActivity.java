@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.ws.apple.ayuep.util.StringUtil.isPhoneNumberValid;
+
 public class RegisterCustomerActivity extends BaseActivity {
     private CustomerModel mCustomer;
     @Override
@@ -32,21 +34,6 @@ public class RegisterCustomerActivity extends BaseActivity {
         Button button1 = (Button)findViewById(R.id.test);
         button1.setOnClickListener(new CostomerClickListener());
 
-    }
-
-    private boolean isPhoneNumberValid(String PhoneNumber ){
-        boolean flag = false;
-        String regex = "[1][358]\\d{9}";
-        CharSequence inputStr = PhoneNumber;
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(inputStr);
-
-        if (matcher.matches() ) {
-            flag = true;
-        }
-
-        return flag;
     }
 
     private class CostomerClickListener implements View.OnClickListener {

@@ -24,6 +24,14 @@ public class StoreInfoDBModelDao {
         }
     }
 
+    public void update(StoreInfoDBModel storeInfoDBModel) {
+        try {
+            mStoreInfoDao.update(storeInfoDBModel);
+        } catch (SQLException e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
     public void insert(List<StoreInfoDBModel> models) {
         for (StoreInfoDBModel item : models) {
             insert(item);
@@ -43,12 +51,17 @@ public class StoreInfoDBModelDao {
         return result;
     }
 
-    public StoreInfoDBModel queryByStoreId(String storeId) throws SQLException {
-        QueryBuilder<StoreInfoDBModel, ?> builder = mStoreInfoDao.queryBuilder();
-        builder.where().eq("storeId", storeId);
-        PreparedQuery<StoreInfoDBModel> preparedQuery = builder.prepare();
-        StoreInfoDBModel result = mStoreInfoDao.queryForFirst(preparedQuery);
-        return result;
+    public StoreInfoDBModel queryByStoreId(String storeId) {
+        try {
+            QueryBuilder<StoreInfoDBModel, ?> builder = mStoreInfoDao.queryBuilder();
+            builder.where().eq("storeId", storeId);
+            PreparedQuery<StoreInfoDBModel> preparedQuery = builder.prepare();
+            StoreInfoDBModel result = mStoreInfoDao.queryForFirst(preparedQuery);
+            return result;
+        } catch (SQLException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return null;
     }
     public void delete(List<StoreInfoDBModel> items) throws SQLException {
         mStoreInfoDao.delete(items);
