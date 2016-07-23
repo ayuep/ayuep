@@ -67,11 +67,16 @@ public class ProductDBModelDao {
         return result;
     }
 
-    public List<ProductDBModel> queryByStoreId(String storeId) throws SQLException {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("storeId", storeId);
-        List<ProductDBModel> result = mProductDbModelDao.queryForFieldValuesArgs(map);
-        return result;
+    public List<ProductDBModel> queryByStoreId(String storeId) {
+        try {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("storeId", storeId);
+            List<ProductDBModel> result = mProductDbModelDao.queryForFieldValuesArgs(map);
+            return result;
+        } catch (SQLException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return null;
     }
 
     public void delete(List<ProductDBModel> items) throws SQLException {

@@ -30,6 +30,7 @@
         <activity android:name=".ui.order.CommentsActivity"></activity>
         <activity android:name=".ui.store.StoreActivity"></activity>
         <activity android:name=".ui.store.StoreInfoActivity"></activity>
+        <activity android:name=".ui.store.StoreProductsActivity"></activity>
     </application>
 
 </manifest>
