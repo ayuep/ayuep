@@ -11,8 +11,7 @@
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/colorDashboardBackgroud"/>
+            android:layout_marginTop="16dp" />
         <TextView
             android:id="@+id/id_product_price"
             android:layout_width="wrap_content"
@@ -21,7 +20,8 @@
             android:layout_alignBottom="@+id/id_product_image"
             android:layout_marginLeft="16dp"
             android:layout_marginBottom="14dp"
-            android:textSize="25dp"
+            android:textSize="20dp"
+            android:textColor="@color/colorPrice"
             android:text="@string/app_name"/>
         <TextView
             android:id="@+id/id_product_description"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/id_product_price"
             android:text="1234"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:lines="1"
             android:ellipsize="end"
             android:layout_alignLeft="@+id/id_product_price"
@@ -49,6 +49,7 @@
         android:layout_height="50dp"
         android:layout_below="@+id/id_seperator_line">
         <Button
+            android:id="@+id/id_priveiw_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="预览"

@@ -1,10 +1,13 @@
 package com.ws.apple.ayuep.ui.store;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -16,6 +19,10 @@ import com.ws.apple.ayuep.ViewHolder;
 import com.ws.apple.ayuep.dao.DataCacheManager;
 import com.ws.apple.ayuep.dao.ProductDBModelDao;
 import com.ws.apple.ayuep.entity.ProductDBModel;
+import com.ws.apple.ayuep.model.ActionModel;
+import com.ws.apple.ayuep.model.NavigatorType;
+import com.ws.apple.ayuep.ui.product.ProductDetailActivity;
+import com.ws.apple.ayuep.ui.product.ProductListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +51,12 @@ public class StoreProductsActivity extends BaseActivity {
     private void initView() {
         ListView listView = (ListView) findViewById(R.id.id_list_view);
         listView.setAdapter(new StoreProductItemAdapter(this, mProducts));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // TO DO
+            }
+        });
     }
 
     private class StoreProductItemAdapter extends CommonAdapter<ProductDBModel> {
@@ -55,16 +68,30 @@ public class StoreProductsActivity extends BaseActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            ProductDBModel product = mProducts.get(i);
+            final ProductDBModel product = mProducts.get(i);
 
             ViewHolder holder = ViewHolder.get(StoreProductsActivity.this, view, viewGroup, R.layout.list_my_product_item);
             holder.setText(R.id.id_product_description, product.getProductDescription());
-            holder.setText(R.id.id_order_product_price, "¥ " + Double.toString(product.getPrice()));
+            holder.setText(R.id.id_product_price, "¥ " + Double.toString(product.getPrice()));
             String[] images = product.getImages().split(",");
             if (images.length >= 1) {
                 ImageView imageView = (ImageView) holder.getView(R.id.id_product_image);
                 ImageLoader.getInstance().displayImage(images[0], imageView);
             }
+
+            Button priviewButton = (Button) holder.getView(R.id.id_priveiw_button);
+            priviewButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(StoreProductsActivity.this, ProductDetailActivity.class);
+                    ActionModel action = new ActionModel();
+                    action.setNavigatorType(NavigatorType.BYPRODUCTID);
+                    action.setProductId(product.getProductId());
+                    action.setTitle("套系详情");
+                    intent.putExtra("action", action);
+                    startActivity(intent);
+                }
+            });
 
             return holder.getConvertView();
         }

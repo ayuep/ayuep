@@ -119,7 +119,7 @@
             android:id="@+id/id_store_address"
             style="?android:attr/textViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:textSize="28dp"
             android:lines="1"
