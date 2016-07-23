@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -26,6 +27,8 @@ import com.ws.apple.ayuep.model.NavigatorType;
 import com.ws.apple.ayuep.proxy.ProductProxy;
 import com.ws.apple.ayuep.ui.order.CommentsActivity;
 import com.ws.apple.ayuep.ui.order.CreateOrderAcitvity;
+import com.ws.apple.ayuep.ui.store.StoreOrdersActivity;
+import com.ws.apple.ayuep.util.ContactUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -94,6 +97,22 @@ public class ProductDetailActivity extends BaseActivity {
 
         TextView storePhoneTextView = (TextView) findViewById(R.id.id_store_phone);
         storePhoneTextView.setText(mStore.getPhoneNumber());
+
+        ImageButton callButton = (ImageButton) findViewById(R.id.id_call_button);
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ContactUtil.call(ProductDetailActivity.this, mStore.getPhoneNumber());
+            }
+        });
+
+        ImageButton SMSButton = (ImageButton) findViewById(R.id.id_sms_button);
+        SMSButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ContactUtil.sendMessage(ProductDetailActivity.this, mStore.getPhoneNumber());
+            }
+        });
     }
 
     private void initData() {

@@ -22,7 +22,6 @@ import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.model.ActionModel;
 import com.ws.apple.ayuep.model.NavigatorType;
 import com.ws.apple.ayuep.ui.product.ProductDetailActivity;
-import com.ws.apple.ayuep.ui.product.ProductListActivity;
 
 import java.util.ArrayList;
 import java.util.List;

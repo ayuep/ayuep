@@ -26,4 +26,18 @@ public class OrderProxy {
 
         HttpUtil.get(context, url, null, handler);
     }
+
+    public void getStoreOrders(Context context, BaseAsyncHttpResponseHandler handler) {
+        String url = BuildConfig.SERVICE_URL + "/api/storeorder";
+
+        HttpUtil.get(context, url, null, handler);
+    }
+
+    public void updateOrderStatus(Context context, OrderModel order, BaseAsyncHttpResponseHandler handler) {
+        String url = BuildConfig.SERVICE_URL + "/api/StoreOrder";
+
+        Gson gson = new Gson();
+
+        HttpUtil.put(context, url, gson.toJson(order), handler);
+    }
 }

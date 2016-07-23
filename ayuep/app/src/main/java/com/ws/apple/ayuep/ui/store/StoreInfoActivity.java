@@ -39,9 +39,12 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import cz.msebera.android.httpclient.Header;
+import me.iwf.photopicker.PhotoPicker;
+import me.iwf.photopicker.PhotoPreview;
 
 import static com.ws.apple.ayuep.util.StringUtil.isPhoneNumberValid;
 
@@ -54,9 +57,6 @@ public class StoreInfoActivity extends BaseActivity {
     private String mStoreName;
     private String mStorePhone;
     private String mStoreAddress;
-    private AlertDialog dialog;
-    private View dialogView;
-
     private StoreInfoDBModel mStore;
 
     @Override
@@ -78,6 +78,7 @@ public class StoreInfoActivity extends BaseActivity {
             EditText storeAddressEdit = ((EditText) findViewById(R.id.id_store_address));
             storeAddressEdit.setText(mStore.getStoreAddress());
             if (!TextUtils.isEmpty(mStore.getStoreImage())) {
+                mFilePath = mStore.getStoreImage();
                 ImageView image = (ImageView) findViewById(R.id.id_store_image);
                 ImageLoader.getInstance().displayImage(mStore.getStoreImage(), image);
             }
@@ -90,53 +91,15 @@ public class StoreInfoActivity extends BaseActivity {
                 submitStoreInfo();
             }
         });
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        dialogView = inflater.inflate(R.layout.dialog_selected_image, null, false);
     }
 
     public void selectStoreImage(View view) {
-        if (dialog == null) {
-            dialog = new AlertDialog.Builder(this).create();
-            dialog.setTitle("请选择");
-            dialog.setIcon(android.R.drawable.ic_dialog_info);
-            dialog.setView(dialogView);
-        }
-
-        Button fromAlbum = (Button) dialogView.findViewById(R.id.id_dialog_album);
-        fromAlbum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                getImageFromAlbum();
-            }
-        });
-
-        Button fromCamera = (Button) dialogView.findViewById(R.id.id_dialog_camera);
-        fromCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                getImageFromCamera();
-            }
-        });
-        dialog.show();
-    }
-
-    protected void getImageFromAlbum() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
-    }
-
-    protected void getImageFromCamera() {
-        String state = Environment.getExternalStorageState();
-        if (state.equals(Environment.MEDIA_MOUNTED)) {
-            Intent getImageByCamera = new Intent("android.media.action.IMAGE_CAPTURE");
-            startActivityForResult(getImageByCamera, REQUEST_CODE_CAPTURE_CAMEIA);
-        }
-        else {
-            Toast.makeText(getApplicationContext(), "请确认已经插入SD卡", Toast.LENGTH_LONG).show();
-        }
+        PhotoPicker.builder()
+                .setPhotoCount(1)
+                .setShowCamera(true)
+                .setShowGif(true)
+                .setPreviewEnabled(false)
+                .start(this, PhotoPicker.REQUEST_CODE);
     }
 
     public void submitStoreInfo() {
@@ -170,13 +133,14 @@ public class StoreInfoActivity extends BaseActivity {
             new FileUploadProxy().upload(this, params, new BaseAsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
+                    Log.d("success", response);
                     if (!TextUtils.isEmpty(response)) {
                         Gson gson = new Gson();
 
                         JsonObject json = gson.fromJson(response, new TypeToken<JsonObject>() {
                         }.getType());
 
-                        updateStoreInfo(BuildConfig.SERVICE_URL + "/" + json.get("filename"));
+                        updateStoreInfo(BuildConfig.SERVICE_URL + "/images/" + json.get("filename"));
                     }
                 }
 
@@ -218,66 +182,24 @@ public class StoreInfoActivity extends BaseActivity {
         });
     }
 
-    // 接收选择照片返回的结果，并将他们显示在ImageView里面
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) {
             return;
         }
 
-        if (requestCode == REQUEST_CODE_PICK_IMAGE) {
-            Uri uri = data.getData();
-            Bitmap bm = null;
-            ContentResolver resolver = getContentResolver();
-            try {
-                bm = MediaStore.Images.Media.getBitmap(resolver, uri);
-                String[] proj = {MediaStore.Images.Media.DATA};
-                Cursor cursor = managedQuery(uri, proj, null, null, null);
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-                mFilePath = cursor.getString(column_index);
-            } catch (IOException e) {
-                Log.d("AYueP", e.getMessage());
-            }
-
-        } else if (requestCode == REQUEST_CODE_CAPTURE_CAMEIA) {
-            Uri uri = data.getData();
-            if (uri == null) {
-                //use bundle to get data
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-                    Bitmap photo = (Bitmap) bundle.get("data"); //get bitmap
-                    String spath = UUID.randomUUID().toString();
-                    saveImage(photo, spath);
-                    mFilePath = spath;
-                } else {
-                    Toast.makeText(getApplicationContext(), "err****", Toast.LENGTH_LONG).show();
-                    return;
+        if (requestCode == PhotoPicker.REQUEST_CODE) {
+            if (data != null) {
+                ArrayList<String> photos =
+                        data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                if (photos.size() >= 1) {
+                    mFilePath = photos.get(0);
+                    ImageView image = (ImageView) findViewById(R.id.id_store_image);
+                    Uri url = new Uri.Builder().build();
+                    image.setImageBitmap(BitmapFactory.decodeFile(mFilePath));
                 }
-            } else {
-                //to do find the path of pic by uri
             }
         }
-
-        if (mFilePath != null) {
-            ImageView image = (ImageView) findViewById(R.id.id_store_image);
-            Uri url = new Uri.Builder().build();
-            image.setImageBitmap(BitmapFactory.decodeFile(mFilePath));
-        }
-    }
-
-    public static boolean saveImage(Bitmap photo, String spath) {
-        try {
-            BufferedOutputStream bos = new BufferedOutputStream(
-                    new FileOutputStream(spath, false));
-            photo.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-            bos.flush();
-            bos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
     }
 }
 

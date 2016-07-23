@@ -27,13 +27,12 @@ public class StoreActivity extends Activity {
                 intent.setClass(this, StoreProductsActivity.class);
                 break;
             case R.id.orders :
-                intent.setClass(this, StoreInfoActivity.class);
+                intent.setClass(this, StoreOrdersActivity.class);
                 break;
             case R.id.back :
-                intent.setClass(this, StoreInfoActivity.class);
-                break;
+                finish();
+                return;
             default:
-                intent.setClass(this, StoreInfoActivity.class);
                 break;
         }
 
