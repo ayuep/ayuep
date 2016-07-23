@@ -1,5 +1,6 @@
 package com.ws.apple.ayuep.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
@@ -7,6 +8,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.ws.apple.ayuep.entity.StoreInfoDBModel;
+import com.ws.apple.ayuep.model.StoreOrderModel;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -26,7 +28,7 @@ public class StoreInfoDBModelDao {
 
     public void update(StoreInfoDBModel storeInfoDBModel) {
         try {
-            mStoreInfoDao.update(storeInfoDBModel);
+            mStoreInfoDao.createOrUpdate(storeInfoDBModel);
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage());
         }

@@ -1,19 +1,12 @@
 
 package com.ws.apple.ayuep.ui.store;
 
-import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,16 +28,12 @@ import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.proxy.FileUploadProxy;
 import com.ws.apple.ayuep.proxy.StoreProxy;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import cz.msebera.android.httpclient.Header;
 import me.iwf.photopicker.PhotoPicker;
-import me.iwf.photopicker.PhotoPreview;
 
 import static com.ws.apple.ayuep.util.StringUtil.isPhoneNumberValid;
 
@@ -78,7 +67,6 @@ public class StoreInfoActivity extends BaseActivity {
             EditText storeAddressEdit = ((EditText) findViewById(R.id.id_store_address));
             storeAddressEdit.setText(mStore.getStoreAddress());
             if (!TextUtils.isEmpty(mStore.getStoreImage())) {
-                mFilePath = mStore.getStoreImage();
                 ImageView image = (ImageView) findViewById(R.id.id_store_image);
                 ImageLoader.getInstance().displayImage(mStore.getStoreImage(), image);
             }
@@ -121,63 +109,68 @@ public class StoreInfoActivity extends BaseActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(mFilePath)) {
+        if (TextUtils.isEmpty(mFilePath) && TextUtils.isEmpty(mStore.getStoreImage())) {
             Toast.makeText(this, "请选择图片! ", Toast.LENGTH_LONG).show();
             return;
         }
 
-        try {
-            showProgressDialog(false, "信息更新中...");
-            RequestParams params = new RequestParams();
-            params.put("img", new File(mFilePath));
-            new FileUploadProxy().upload(this, params, new BaseAsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(String response) {
-                    Log.d("success", response);
-                    if (!TextUtils.isEmpty(response)) {
-                        Gson gson = new Gson();
+        if (!TextUtils.isEmpty(mFilePath)) {
+            try {
+                showProgressDialog(false, "信息更新中...");
+                RequestParams params = new RequestParams();
+                params.put("img", new File(mFilePath));
+                new FileUploadProxy().upload(this, params, new BaseAsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(String response) {
+                        Log.d("success", response);
+                        if (!TextUtils.isEmpty(response)) {
+                            Gson gson = new Gson();
 
-                        JsonObject json = gson.fromJson(response, new TypeToken<JsonObject>() {
-                        }.getType());
+                            JsonObject json = gson.fromJson(response, new TypeToken<JsonObject>() {
+                            }.getType());
 
-                        updateStoreInfo(BuildConfig.SERVICE_URL + "/images/" + json.get("filename"));
+                            updateStoreInfo(BuildConfig.SERVICE_URL + "/images/" + json.get("filename").getAsString());
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
-                    super.onFailure(statusCode, headers, responseBytes, throwable);
-                    Toast.makeText(StoreInfoActivity.this, "图片上传失败, 请稍后再试! ", Toast.LENGTH_LONG);
-                    dismissProgressDialog();
-                }
-            });
-        } catch (IOException e) {
-            Log.d("AYueP", e.getMessage());
-            dismissProgressDialog();
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseBytes, throwable);
+                        Toast.makeText(StoreInfoActivity.this, "图片上传失败, 请稍后再试! ", Toast.LENGTH_LONG).show();
+                        dismissProgressDialog();
+                    }
+                });
+            } catch (IOException e) {
+                Log.d("AYueP", e.getMessage());
+                dismissProgressDialog();
+            }
+        } else {
+            showProgressDialog(false, "信息更新中...");
+            updateStoreInfo(null);
         }
     }
 
     private void updateStoreInfo (String filePath) {
-        final StoreInfoDBModel storeInfoDBModel = new StoreInfoDBModel();
-        storeInfoDBModel.setStoreId(DataCacheManager.getDataCacheManager(this).getStoreId(this));
-        storeInfoDBModel.setStoreName(mStoreName);
-        storeInfoDBModel.setPhoneNumber(mStorePhone);
-        storeInfoDBModel.setStoreAddress(mStoreAddress);
-        storeInfoDBModel.setStoreImage(filePath);
+        mStore.setStoreName(mStoreName);
+        mStore.setPhoneNumber(mStorePhone);
+        mStore.setStoreAddress(mStoreAddress);
+        if (!TextUtils.isEmpty(filePath)) {
+            mStore.setStoreImage(filePath);
+        }
 
-        new StoreProxy().updateStore(this, storeInfoDBModel, new BaseAsyncHttpResponseHandler() {
+        new StoreProxy().updateStore(this, mStore, new BaseAsyncHttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
-                new StoreInfoDBModelDao(StoreInfoActivity.this).update(storeInfoDBModel);
-                Toast.makeText(StoreInfoActivity.this, "更新成功! ", Toast.LENGTH_LONG);
+                new StoreInfoDBModelDao(StoreInfoActivity.this).update(mStore);
                 dismissProgressDialog();
+                Toast.makeText(StoreInfoActivity.this, "更新成功! ", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseBytes, throwable);
-                Toast.makeText(StoreInfoActivity.this, "更新失败,请稍后再试! ", Toast.LENGTH_LONG);
                 dismissProgressDialog();
+                Toast.makeText(StoreInfoActivity.this, "更新失败,请稍后再试! ", Toast.LENGTH_LONG).show();
             }
         });
     }

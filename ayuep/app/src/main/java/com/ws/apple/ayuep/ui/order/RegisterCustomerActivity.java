@@ -31,9 +31,6 @@ public class RegisterCustomerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_customer);
-        Button button1 = (Button)findViewById(R.id.test);
-        button1.setOnClickListener(new CostomerClickListener());
-
     }
 
     private class CostomerClickListener implements View.OnClickListener {

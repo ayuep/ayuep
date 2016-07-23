@@ -87,4 +87,12 @@ public class ProductDBModelDao {
         List<ProductDBModel> result = mProductDbModelDao.queryForAll();
         mProductDbModelDao.delete(result);
     }
+
+    public void update(ProductDBModel product) {
+        try {
+            mProductDbModelDao.createOrUpdate(product);
+        } catch (SQLException e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
 }

@@ -39,11 +39,4 @@ public class PhotoViewActivity extends Activity {
         search_viewpager.setAdapter(adapter);
         search_viewpager.setCurrentItem(position);
     }
-
-    public void onBack(View view) {
-        Intent intent = new Intent();
-        intent.putExtra("position", search_viewpager.getCurrentItem());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
 }

@@ -59,8 +59,8 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
 
         mBottomNavigationBar
                 .addItem(new BottomNavigationItem(R.mipmap.tab_home_unselect, getString(R.string.navigation_dashboard)))
-                .addItem(new BottomNavigationItem(R.mipmap.tab_contact_unselect, getString(R.string.navigation_all_stores)))
-                .addItem(new BottomNavigationItem(R.mipmap.tab_contact_unselect, getString(R.string.navigation_my_order)))
+                .addItem(new BottomNavigationItem(R.mipmap.store, getString(R.string.navigation_all_stores)))
+                .addItem(new BottomNavigationItem(R.mipmap.order, getString(R.string.navigation_my_order)))
                 .addItem(new BottomNavigationItem(R.mipmap.tab_contact_unselect, getString(R.string.navigation_my_info)))
                 .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise();

@@ -165,7 +165,7 @@ public class StoreOrdersActivity extends BaseActivity {
                         public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
                             super.onFailure(statusCode, headers, responseBytes, throwable);
                             dismissProgressDialog();
-                            Toast.makeText(StoreOrdersActivity.this, "更新失败, 请稍后再试。", Toast.LENGTH_LONG);
+                            Toast.makeText(StoreOrdersActivity.this, "更新失败, 请稍后再试。", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
