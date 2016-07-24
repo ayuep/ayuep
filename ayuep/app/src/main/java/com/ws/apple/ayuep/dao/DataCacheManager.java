@@ -8,6 +8,7 @@ import android.util.Log;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.ws.apple.ayuep.Constants;
 import com.ws.apple.ayuep.entity.SettingModel;
+import com.ws.apple.ayuep.model.ConfigurationModel;
 
 import java.util.UUID;
 
@@ -22,7 +23,9 @@ public class DataCacheManager {
     private String deviceIdentity;
 
     private String storeId;
-    
+
+    private ConfigurationModel configuration;
+
     public static DataCacheManager getDataCacheManager(Context context) {
         if (instance == null) {
             synchronized (DataCacheManager.class) {
@@ -88,5 +91,13 @@ public class DataCacheManager {
         settingModel.setKey(Constants.SettingKeyCurrentStoreId);
         settingModel.setValue(storeId);
         new SettingModelDao(context).insert(settingModel);
+    }
+
+    public ConfigurationModel getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(ConfigurationModel configuration) {
+        this.configuration = configuration;
     }
 }

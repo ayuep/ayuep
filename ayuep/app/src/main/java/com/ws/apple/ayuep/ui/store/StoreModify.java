@@ -5,17 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +20,11 @@ import com.ws.apple.ayuep.BaseActivity;
 import com.ws.apple.ayuep.CommonAdapter;
 import com.ws.apple.ayuep.R;
 import com.ws.apple.ayuep.ViewHolder;
+import com.ws.apple.ayuep.dao.DataCacheManager;
 import com.ws.apple.ayuep.dao.ProductDBModelDao;
 import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
+import com.ws.apple.ayuep.model.ProductTypeModel;
 import com.ws.apple.ayuep.proxy.ProductProxy;
 
 import java.util.ArrayList;
@@ -38,12 +36,12 @@ import me.iwf.photopicker.PhotoPicker;
 public class StoreModify extends BaseActivity {
 
     private final String ADD_FLAG = "add_icon";
-//    private List<String> data = new ArrayList<String>();
     private ProductDBModel mProductDBModel;
     private EditText mDescription;
     private EditText mPrice;
     private TextView mType;
     private GridView mGridView;
+    private List<ProductTypeModel> mProducts;
     protected ProgressDialog mProgressDialog;
     private List<String> mImageURLS = new ArrayList<>();
 
@@ -56,6 +54,7 @@ public class StoreModify extends BaseActivity {
     }
     private void InitData()
     {
+        mProducts = DataCacheManager.getDataCacheManager(this).getConfiguration().getProductTypes();
         Intent intent = getIntent();
         mProductDBModel = (ProductDBModel)intent.getSerializableExtra("data_product");
     }
@@ -152,20 +151,6 @@ public class StoreModify extends BaseActivity {
                     dismissProgressDialog();
                 }
             });
-        }
-    }
-    public void showProgressDialog(boolean cancelable, String message) {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(message);
-            mProgressDialog.show();
-        }
-    }
-
-    public void dismissProgressDialog() {
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
         }
     }
 

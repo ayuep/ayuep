@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ws.apple.ayuep.BaseActivity;
 import com.ws.apple.ayuep.R;
+import com.ws.apple.ayuep.dao.DataCacheManager;
 import com.ws.apple.ayuep.dao.ProductDBModelDao;
 import com.ws.apple.ayuep.dao.StoreInfoDBModelDao;
 import com.ws.apple.ayuep.entity.ProductDBModel;
@@ -266,6 +267,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
 
                 mConfiguration = gson.fromJson(response, new TypeToken<ConfigurationModel>(){}.getType());
                 mDashboardFragment.setmConfiguration(mConfiguration);
+                DataCacheManager.getDataCacheManager(BottomNavigationActivity.this).setConfiguration(mConfiguration);
                 mDashboardFragment.initView();
             }
             prepareEvn();
