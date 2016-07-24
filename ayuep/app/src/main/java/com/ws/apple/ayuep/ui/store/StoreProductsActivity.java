@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ws.apple.ayuep.BaseActivity;
@@ -39,7 +40,12 @@ public class StoreProductsActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_products);
+        setTitle("所有套系");
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         InitData();
         InitView();
     }
@@ -51,39 +57,16 @@ public class StoreProductsActivity extends BaseActivity {
     private void InitView() {
         ListView listView = (ListView) findViewById(R.id.id_list_view);
         listView.setAdapter(new StoreProductItemAdapter(this, mProducts));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // TO DO
-                Intent intent = new Intent(StoreProductsActivity.this,StoreModify.class);
-                intent.putExtra("data_product",(Serializable)mProducts.get(i));
-                startActivityForResult(intent,PRODUCTCODE);
-            }
-        });
         Button addProducts = (Button)findViewById(R.id.id_store_products_add);
         addProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(StoreProductsActivity.this,StoreModify.class);
-                startActivityForResult(intent,PRODUCTCODE);
+                startActivity(intent);
             }
         });
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode,int resultCode,Intent intent){
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        switch (requestCode)
-        {
-            case PRODUCTCODE:
-                InitData();
-                break;
-            default:
-        }
-    }
     private class StoreProductItemAdapter extends CommonAdapter<ProductDBModel> {
 
 
@@ -114,6 +97,16 @@ public class StoreProductsActivity extends BaseActivity {
                     action.setProductId(product.getProductId());
                     action.setTitle("套系详情");
                     intent.putExtra("action", action);
+                    startActivity(intent);
+                }
+            });
+
+            View content = holder.getView(R.id.id_product_item);
+            content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(StoreProductsActivity.this,StoreModify.class);
+                    intent.putExtra("data_product",(Serializable)product);
                     startActivity(intent);
                 }
             });
