@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" >
         <LinearLayout
+            android:id="@+id/id_image_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -22,7 +23,7 @@
                 android:layout_width="60dip"
                 android:layout_height="55dip" />
         </LinearLayout>
-        <ImageView
+        <ImageButton
             android:id="@+id/delete_markView"
             android:layout_width="20dip"
             android:layout_height="20dip"

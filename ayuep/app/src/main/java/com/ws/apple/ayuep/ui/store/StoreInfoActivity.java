@@ -188,7 +188,6 @@ public class StoreInfoActivity extends BaseActivity {
                 if (photos.size() >= 1) {
                     mFilePath = photos.get(0);
                     ImageView image = (ImageView) findViewById(R.id.id_store_image);
-                    Uri url = new Uri.Builder().build();
                     image.setImageBitmap(BitmapFactory.decodeFile(mFilePath));
                 }
             }

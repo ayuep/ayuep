@@ -65,7 +65,6 @@ public class StoreProductsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(StoreProductsActivity.this,StoreModify.class);
-                intent.putExtra("data_product",(Serializable)new ProductDBModel());
                 startActivityForResult(intent,PRODUCTCODE);
             }
         });

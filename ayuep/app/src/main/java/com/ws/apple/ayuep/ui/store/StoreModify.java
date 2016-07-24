@@ -3,19 +3,27 @@ package com.ws.apple.ayuep.ui.store;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.ws.apple.ayuep.BaseActivity;
+import com.ws.apple.ayuep.CommonAdapter;
 import com.ws.apple.ayuep.R;
+import com.ws.apple.ayuep.ViewHolder;
 import com.ws.apple.ayuep.dao.ProductDBModelDao;
 import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
@@ -25,54 +33,94 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import me.iwf.photopicker.PhotoPicker;
 
-public class StoreModify extends AppCompatActivity {
+public class StoreModify extends BaseActivity {
 
-    private List<String> data = new ArrayList<String>();
+    private final String ADD_FLAG = "add_icon";
+//    private List<String> data = new ArrayList<String>();
     private ProductDBModel mProductDBModel;
     private EditText mDescription;
     private EditText mPrice;
-    private ListView mTypeList;
     private TextView mType;
+    private GridView mGridView;
     protected ProgressDialog mProgressDialog;
+    private List<String> mImageURLS = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_modify);
-        InitView();
         InitData();
+        InitView();
     }
     private void InitData()
     {
-        data.add("儿童摄影");
-        data.add("婚纱摄影");
-        data.add("个人写真");
-        data.add("其他");
         Intent intent = getIntent();
         mProductDBModel = (ProductDBModel)intent.getSerializableExtra("data_product");
-        if(mProductDBModel != null)
-        {
+    }
+    private void InitView(){
+        mDescription = (EditText)findViewById(R.id.id_store_description);
+        mPrice = (EditText)findViewById(R.id.id_store_price);
+
+        if(mProductDBModel != null) {
             mDescription.setText(mProductDBModel.getProductDescription());
             mPrice.setText(String.valueOf(mProductDBModel.getPrice()));
             if(mProductDBModel.getProductType()!=null) {
                 mType.setText(mProductDBModel.getProductType());
             }
+            String[] urls = mProductDBModel.getImages().split(",");
+            mImageURLS.clear();
+            for (String url : urls) {
+                mImageURLS.add(url);
+            }
+            mImageURLS.add(ADD_FLAG);
+        } else {
+            mImageURLS.add(ADD_FLAG);
         }
-    }
-    private void InitView(){
-        mDescription = (EditText)findViewById(R.id.id_store_description);
-        mPrice = (EditText)findViewById(R.id.id_store_price);
-        TypeAdapter adapter = new TypeAdapter(StoreModify.this,R.layout.listitem,data);
-        mTypeList = (ListView) findViewById(R.id.id_store_list_view);
-        mTypeList.setAdapter(adapter);
-        mTypeList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+        mGridView = (GridView) findViewById(R.id.gridView);
+        mGridView.setAdapter(new ImageItemAdapter(this, mImageURLS));
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mType = (TextView)findViewById(R.id.id_store_type);
-                mType.setText(data.get(i));
+                if (i == mImageURLS.size() - 1) {
+                    selectImages();
+                }
             }
         });
     }
+
+    public void selectImages() {
+        PhotoPicker.builder()
+                .setPhotoCount(9 - mImageURLS.size())
+                .setShowCamera(true)
+                .setShowGif(true)
+                .setPreviewEnabled(false)
+                .start(this, PhotoPicker.REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == PhotoPicker.REQUEST_CODE) {
+            if (data != null) {
+                ArrayList<String> photos =
+                        data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                mImageURLS.remove(mImageURLS.size() - 1);
+                for (String photo: photos) {
+                    mImageURLS.add(photo);
+                }
+                mImageURLS.add(ADD_FLAG);
+
+                refreshGridView();
+            }
+        }
+    }
+
     public void onSubmitClick(View view) {
         if(mPrice.getText().toString()!=null) {
             mProductDBModel.setPrice(Double.valueOf(mPrice.getText().toString()));
@@ -86,7 +134,7 @@ public class StoreModify extends AppCompatActivity {
         }
         if(mDescription.getText().toString()!=null&&mPrice.getText().toString()!=null) {
             mProductDBModel.setProductType(mType.getText().toString());
-            showProgressDialog(false, "更新订单状态中...");
+            showProgressDialog(false, "更新套系中...");
             new ProductProxy().updataProduction(this, mProductDBModel, new BaseAsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
@@ -120,26 +168,41 @@ public class StoreModify extends AppCompatActivity {
             mProgressDialog = null;
         }
     }
-}
- class TypeAdapter extends ArrayAdapter<String>{
-     private int resourcesId;
-     public TypeAdapter(Context context, int textViewResourceId, List<String> data)
-     {
-         super(context,textViewResourceId,data);
-         resourcesId =textViewResourceId;
-     }
 
-     @Override
-     public View getView(int position, View convertView, ViewGroup parent) {
-         String type = getItem(position);
-         View view ;
-         if(convertView==null) {
-             view =  LayoutInflater.from(getContext()).inflate(resourcesId, null);
-         }else{
-             view =convertView;
-         }
-         TextView textView = (TextView)view.findViewById(R.id.title_text);
-         textView.setText(type);
-         return view;
-     }
- }
+    private void refreshGridView() {
+        ImageItemAdapter adapter = (ImageItemAdapter) mGridView.getAdapter();
+        adapter.notifyDataSetChanged();
+    }
+
+    private class ImageItemAdapter extends CommonAdapter<String> {
+        public ImageItemAdapter(Context context, List<String> datas) {
+            super(context, datas);
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            ViewHolder holder = ViewHolder.get(StoreModify.this, view, viewGroup, R.layout.grid_view);
+            final String url = datas.get(i);
+            ImageView imageView = (ImageView) holder.getView(R.id.img);
+            if (url.contains("http")) {
+                ImageLoader.getInstance().displayImage(url, imageView);
+            } else if (url.equals(ADD_FLAG)) {
+              imageView.setImageResource(R.mipmap.add);
+            } else {
+                imageView.setImageBitmap(BitmapFactory.decodeFile(url));
+            }
+
+            ImageButton deleteImagebutton = (ImageButton) holder.getView(R.id.delete_markView);
+            deleteImagebutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mImageURLS.remove(url);
+                    refreshGridView();
+                }
+            });
+
+            return holder.getConvertView();
+        }
+    }
+}
+
