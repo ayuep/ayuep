@@ -93,6 +93,10 @@ public class DataCacheManager {
         new SettingModelDao(context).insert(settingModel);
     }
 
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
+
     public ConfigurationModel getConfiguration() {
         return configuration;
     }

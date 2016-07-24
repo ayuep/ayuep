@@ -97,25 +97,29 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
                 }
             });
 
-            for (ProductTypeModel productType: mConfiguration.getProductTypes()) {
-                View view = getActivity().getLayoutInflater().inflate(R.layout.type_list_item, null);
-                TextView textView = (TextView) view.findViewById(R.id.id_type_name);
-                textView.setText(productType.getProductTypeName());
-                view.setTag(productType.getProductTypeName());
-                view.setClickable(true);
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), ProductListActivity.class);
-                        ActionModel action = new ActionModel();
-                        action.setNavigatorType(NavigatorType.BYPRODUCTTYPE);
-                        action.setProductType((String) view.getTag());
-                        action.setTitle((String) view.getTag());
-                        intent.putExtra("action", action);
-                        startActivity(intent);
-                    }
-                });
-                mContentView.addView(view);
+            TextView textViewChecked = (TextView) view.findViewById(R.id.id_type_name);
+
+            if (textViewChecked == null) {
+                for (ProductTypeModel productType : mConfiguration.getProductTypes()) {
+                    View view = getActivity().getLayoutInflater().inflate(R.layout.type_list_item, null);
+                    TextView textView = (TextView) view.findViewById(R.id.id_type_name);
+                    textView.setText(productType.getProductTypeName());
+                    view.setTag(productType.getProductTypeName());
+                    view.setClickable(true);
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(getActivity(), ProductListActivity.class);
+                            ActionModel action = new ActionModel();
+                            action.setNavigatorType(NavigatorType.BYPRODUCTTYPE);
+                            action.setProductType((String) view.getTag());
+                            action.setTitle((String) view.getTag());
+                            intent.putExtra("action", action);
+                            startActivity(intent);
+                        }
+                    });
+                    mContentView.addView(view);
+                }
             }
         }
 

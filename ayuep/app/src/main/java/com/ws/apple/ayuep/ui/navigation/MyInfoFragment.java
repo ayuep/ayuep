@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ws.apple.ayuep.BaseFragment;
+import com.ws.apple.ayuep.Constants;
 import com.ws.apple.ayuep.R;
 import com.ws.apple.ayuep.dao.DataCacheManager;
 import com.ws.apple.ayuep.dao.SettingModelDao;
@@ -57,22 +58,33 @@ public class MyInfoFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 if (TextUtils.isEmpty(DataCacheManager.getDataCacheManager(getActivity()).getStoreId(getActivity()))) {
-                    mEditView = new EditText(getActivity());
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("请输入邀请码")
-                            .setIcon(android.R.drawable.ic_dialog_info)
-                            .setView(mEditView)
-                            .setPositiveButton("确定", new MessageOk())
-                            .setNegativeButton("取消", new MessageNo())
-                            .show();
+                    invite();
                 } else {
-                    Intent intent = new Intent(getActivity().getApplicationContext(),StoreActivity.class);
-                    startActivity(intent);
+                    StoreInfoDBModel store = new StoreInfoDBModelDao(getActivity()).queryByStoreId(DataCacheManager.getDataCacheManager(getActivity()).getStoreId(getActivity()));
+                    if (store == null) {
+                        new SettingModelDao(getActivity()).delete(Constants.SettingKeyCurrentStoreId);
+                        DataCacheManager.getDataCacheManager(getActivity()).setStoreId("");
+                        invite();
+                    } else {
+                        Intent intent = new Intent(getActivity().getApplicationContext(), StoreActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
         });
 
         return v;
+    }
+
+    public void invite() {
+        mEditView = new EditText(getActivity());
+        new AlertDialog.Builder(getActivity())
+                .setTitle("请输入邀请码")
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setView(mEditView)
+                .setPositiveButton("确定", new MessageOk())
+                .setNegativeButton("取消", new MessageNo())
+                .show();
     }
 
     private class MessageOk implements DialogInterface.OnClickListener{
@@ -115,7 +127,6 @@ public class MyInfoFragment extends BaseFragment {
     private class MessageNo implements DialogInterface.OnClickListener{
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            getActivity().finish();
         }
     }
 }

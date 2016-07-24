@@ -51,4 +51,13 @@ public class SettingModelDao {
 
         return settingModel;
     }
+
+    public void delete(String key) {
+        try {
+            SettingModel setting = query(key);
+            mSettingsDao.delete(setting);
+        } catch (SQLException e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
 }
