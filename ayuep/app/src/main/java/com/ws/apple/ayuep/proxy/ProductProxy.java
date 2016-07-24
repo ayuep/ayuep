@@ -2,7 +2,9 @@ package com.ws.apple.ayuep.proxy;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.ws.apple.ayuep.BuildConfig;
+import com.ws.apple.ayuep.entity.ProductDBModel;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.util.HttpUtil;
 
@@ -25,5 +27,11 @@ public class ProductProxy {
         String url = baseUrl + "/api/products?productId=" + productId;
 
         HttpUtil.get(context, url, null, handler);
+    }
+
+    public void updataProduction(Context context, ProductDBModel productDBModel, BaseAsyncHttpResponseHandler handler){
+        String url = baseUrl + "/api/products";
+        Gson gson = new Gson();
+        HttpUtil.post(context,url,gson.toJson(productDBModel),handler);
     }
 }

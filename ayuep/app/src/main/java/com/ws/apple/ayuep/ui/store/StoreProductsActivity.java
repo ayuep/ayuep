@@ -23,6 +23,7 @@ import com.ws.apple.ayuep.model.ActionModel;
 import com.ws.apple.ayuep.model.NavigatorType;
 import com.ws.apple.ayuep.ui.product.ProductDetailActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,31 +34,47 @@ import java.util.List;
 public class StoreProductsActivity extends BaseActivity {
 
     private List<ProductDBModel> mProducts = new ArrayList<>();
-
+    final int PRODUCTCODE = 666;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_products);
 
-        initData();
-        initView();
+        InitData();
+        InitView();
     }
 
-    private void initData() {
+    private void InitData() {
         mProducts = new ProductDBModelDao(this).queryByStoreId(DataCacheManager.getDataCacheManager(this).getStoreId(this));
     }
 
-    private void initView() {
+    private void InitView() {
         ListView listView = (ListView) findViewById(R.id.id_list_view);
         listView.setAdapter(new StoreProductItemAdapter(this, mProducts));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // TO DO
+                Intent intent = new Intent(StoreProductsActivity.this,StoreModify.class);
+                intent.putExtra("data_product",(Serializable)mProducts.get(i));
+                startActivityForResult(intent,PRODUCTCODE);
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode,Intent intent){
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        switch (requestCode)
+        {
+            case PRODUCTCODE:
+                InitData();
+                break;
+            default:
+        }
+    }
     private class StoreProductItemAdapter extends CommonAdapter<ProductDBModel> {
 
 
