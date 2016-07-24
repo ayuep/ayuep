@@ -60,7 +60,17 @@ public class StoreProductsActivity extends BaseActivity {
                 startActivityForResult(intent,PRODUCTCODE);
             }
         });
+        Button addProducts = (Button)findViewById(R.id.id_store_products_add);
+        addProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StoreProductsActivity.this,StoreModify.class);
+                intent.putExtra("data_product",(Serializable)new ProductDBModel());
+                startActivityForResult(intent,PRODUCTCODE);
+            }
+        });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent intent){

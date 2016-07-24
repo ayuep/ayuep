@@ -54,6 +54,9 @@ public class StoreModify extends AppCompatActivity {
         {
             mDescription.setText(mProductDBModel.getProductDescription());
             mPrice.setText(String.valueOf(mProductDBModel.getPrice()));
+            if(mProductDBModel.getProductType()!=null) {
+                mType.setText(mProductDBModel.getProductType());
+            }
         }
     }
     private void InitView(){
@@ -77,29 +80,31 @@ public class StoreModify extends AppCompatActivity {
             Toast.makeText(this,"请输入价格",Toast.LENGTH_SHORT).show();
         }
         if(mDescription.getText().toString()!=null) {
-            mProductDBModel.setPrice(Double.valueOf(mDescription.getText().toString()));
+            mProductDBModel.setProductDescription(mDescription.getText().toString());
         }else {
             Toast.makeText(this,"请输入商品描述",Toast.LENGTH_SHORT).show();
         }
-        mProductDBModel.setProductType(mType.getText().toString());
-        showProgressDialog(false, "更新订单状态中...");
-        new ProductProxy().updataProduction(this, mProductDBModel, new BaseAsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
-                new ProductDBModelDao(StoreModify.this).updata(mProductDBModel);
-                Toast.makeText(StoreModify.this, "更新成功! ", Toast.LENGTH_LONG);
-                dismissProgressDialog();
-                setResult(RESULT_OK,new Intent());
-                finish();
-            }
+        if(mDescription.getText().toString()!=null&&mPrice.getText().toString()!=null) {
+            mProductDBModel.setProductType(mType.getText().toString());
+            showProgressDialog(false, "更新订单状态中...");
+            new ProductProxy().updataProduction(this, mProductDBModel, new BaseAsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(String response) {
+                    new ProductDBModelDao(StoreModify.this).update(mProductDBModel);
+                    Toast.makeText(StoreModify.this, "更新成功! ", Toast.LENGTH_LONG);
+                    dismissProgressDialog();
+                    setResult(RESULT_OK, new Intent());
+                    finish();
+                }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseBytes, throwable);
-                Toast.makeText(StoreModify.this, "更新失败! ", Toast.LENGTH_LONG);
-                dismissProgressDialog();
-            }
-        });
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
+                    super.onFailure(statusCode, headers, responseBytes, throwable);
+                    Toast.makeText(StoreModify.this, "更新失败! ", Toast.LENGTH_LONG);
+                    dismissProgressDialog();
+                }
+            });
+        }
     }
     public void showProgressDialog(boolean cancelable, String message) {
         if (mProgressDialog == null) {
