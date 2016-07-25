@@ -18,6 +18,7 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.ws.apple.ayuep.BaseFragment;
 import com.ws.apple.ayuep.NetworkImageHolderView;
 import com.ws.apple.ayuep.R;
+import com.ws.apple.ayuep.dao.DataCacheManager;
 import com.ws.apple.ayuep.model.ActionModel;
 import com.ws.apple.ayuep.model.ConfigurationModel;
 import com.ws.apple.ayuep.model.NavigatorType;
@@ -59,7 +60,7 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_dashboard_navigation, null);
 
-        getData();
+        mConfiguration = DataCacheManager.getDataCacheManager(getActivity()).getConfiguration();
         initView();
         return view;
     }
@@ -131,11 +132,6 @@ public class DashboardFragment extends BaseFragment implements AdapterView.OnIte
             }
         });
 
-
-    }
-
-    private void getData() {
-        Context context = getActivity();
 
     }
 

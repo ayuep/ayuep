@@ -121,6 +121,7 @@
                     android:layout_marginBottom="16dp"/>
             </LinearLayout>
             <Button
+                android:id="@+id/id_register_customer"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:text="完成"
@@ -130,8 +131,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="50dp"
-                android:onClick="submitCustomer"/>
+                android:layout_marginBottom="50dp" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

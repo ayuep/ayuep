@@ -19,6 +19,15 @@
         android:text="123"
         android:textColor="@color/colorPrice"
         android:layout_marginTop="8dp"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="购买"
+        android:textColor="@color/colorTitle"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         android:textSize="25dp"/>
 </LinearLayout>

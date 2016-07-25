@@ -146,9 +146,6 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
     }
 
     public void getData() {
-        showProgressDialog(false, "准备数据中...");
-        new DeviceProxy().registerDevice(this, new DeviceAsyncHttpResponseHandler());
-        new ConfigurationProxy().getConfiguration(this, new ConfigrationAsyncHttpResponseHandler());
         refresh();
     }
 
@@ -161,16 +158,12 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
 
     private void checkGetDataSuccess() {
         if (mGetProductSuccess && mGetStoreSuccess) {
+            Log.d("ducceee", "fdsfds");
             mDashboardFragment.getmPtrFrameLayout().refreshComplete();
+            dismissProgressDialog();
         }
     }
 
-    private void prepareEvn() {
-        if (mGetProductSuccess && mGetStoreSuccess && mGetConfigurationSuccess) {
-            mProgressDialog.dismiss();
-            mDashboardFragment.initView();
-        }
-    }
 
     private class StoreAsyncHttpResponseHandler extends BaseAsyncHttpResponseHandler {
 
@@ -197,7 +190,6 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
                 }
             }
             checkGetDataSuccess();
-            prepareEvn();
         }
 
         @Override
@@ -205,7 +197,6 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
             super.onFailure(statusCode, headers, responseBytes, throwable);
             mGetStoreSuccess = true;
             checkGetDataSuccess();
-            prepareEvn();
         }
     }
 
@@ -235,7 +226,6 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
 
             }
             checkGetDataSuccess();
-            prepareEvn();
         }
 
         @Override
@@ -243,42 +233,6 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
             super.onFailure(statusCode, headers, responseBytes, throwable);
             mGetProductSuccess = true;
             checkGetDataSuccess();
-            prepareEvn();
         }
-    }
-
-
-
-    private class DeviceAsyncHttpResponseHandler extends  BaseAsyncHttpResponseHandler {
-
-        @Override
-        public void onSuccess(String response) {
-            Log.d("Keven", "success");
-        }
-    }
-
-    private class ConfigrationAsyncHttpResponseHandler extends BaseAsyncHttpResponseHandler {
-
-        @Override
-        public void onSuccess(String response) {
-            mGetConfigurationSuccess = true;
-            if (!TextUtils.isEmpty(response)) {
-                Gson gson = new Gson();
-
-                mConfiguration = gson.fromJson(response, new TypeToken<ConfigurationModel>(){}.getType());
-                mDashboardFragment.setmConfiguration(mConfiguration);
-                DataCacheManager.getDataCacheManager(BottomNavigationActivity.this).setConfiguration(mConfiguration);
-                mDashboardFragment.initView();
-            }
-            prepareEvn();
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
-            super.onFailure(statusCode, headers, responseBytes, throwable);
-            mGetConfigurationSuccess = true;
-            prepareEvn();
-        }
-
     }
 }

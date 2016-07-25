@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -31,6 +32,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void dismissProgressDialog() {
+        Log.d("dismiss", "123");
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
             mProgressDialog = null;

@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -44,7 +45,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class CreateOrderAcitvity extends BaseActivity {
 
-    private List<CustomerModel> mCustomer;
+    private CustomerModel mCustomer;
     private final int REQUESTCODE = 13;
     private View mContentView;
     private String mProductId;
@@ -60,14 +61,21 @@ public class CreateOrderAcitvity extends BaseActivity {
         mContentView = findViewById(R.id.id_create_order_content);
 
         initData();
+        Button button = (Button) findViewById(R.id.id_create_order);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createOrder();
+            }
+        });
     }
     @Override
     protected void onActivityResult(int requestCode,int resultCode, Intent data) {
         switch (requestCode) {
             case REQUESTCODE:
                 if(resultCode == RESULT_OK){
-                    CustomerModel customerModel = (CustomerModel) data.getSerializableExtra("customer_data");
-                    SetViewText(customerModel);
+                    mCustomer = (CustomerModel) data.getSerializableExtra("customer_data");
+                    SetViewText(mCustomer);
                 } else {
                     finish();
                 }
@@ -128,14 +136,14 @@ public class CreateOrderAcitvity extends BaseActivity {
         });
     }
 
-    public void createOrder(View view) {
+    public void createOrder() {
         if (mCalendar.compareTo(Calendar.getInstance()) <= 0) {
             Toast.makeText(this, "预定时间必须晚于当前时间! ", Toast.LENGTH_LONG).show();
             return;
         }
         showProgressDialog(false, "创建订单中...");
         OrderModel order = new OrderModel();
-        order.setCustomerId(mCustomer.get(0).getCustomerId());
+        order.setCustomerId(mCustomer.getCustomerId());
         order.setProductId(mProductId);
         order.setExpectedTime(DateUtil.getJsonDateString(mCalendar.getTime()));
         new OrderProxy().order(this, order, new OrderAsyncHttpResponseHandler());
@@ -162,25 +170,21 @@ public class CreateOrderAcitvity extends BaseActivity {
     private class CustomerAsyncHttpResponseHandler extends BaseAsyncHttpResponseHandler {
         @Override
         public void onSuccess(String response) {
-            try {
-                if(!TextUtils.isEmpty(response)) {
-                    Gson gson = new Gson();
-                    mCustomer = gson.fromJson(response, new TypeToken<List<CustomerModel>>() {
-                    }.getType());
-                }
-                if(mCustomer.size() <= 0){
+            if (!TextUtils.isEmpty(response)) {
+                Gson gson = new Gson();
+                List<CustomerModel> customers = gson.fromJson(response, new TypeToken<List<CustomerModel>>() {
+                }.getType());
+                if (customers.size() <= 0) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CreateOrderAcitvity.this);
-                    builder.setTitle("提示" );
-                    builder.setMessage("你还没有设置预订人信息，请点击这里设置！" );
-                    builder.setPositiveButton("是" ,new MessageOk() );
-                    builder.setNegativeButton("否" ,new MessageNo());
+                    builder.setTitle("提示");
+                    builder.setMessage("你还没有设置预订人信息，请点击这里设置！");
+                    builder.setPositiveButton("是", new MessageOk());
+                    builder.setNegativeButton("否", new MessageNo());
                     builder.show();
                 } else {
-                    SetViewText(mCustomer.get(0));
+                    mCustomer = customers.get(0);
+                    SetViewText(mCustomer);
                 }
-            }
-            catch (Exception e) {
-                Log.d("APIERROR",e.getMessage().toString());
             }
             dismissProgressDialog();
         }
