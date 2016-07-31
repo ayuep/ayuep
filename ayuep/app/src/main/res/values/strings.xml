@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">爱约拍</string>
+    <string name="app_name">来约拍</string>
     <string name="service_host">http://192.168.0.103</string>
     <string name="service_port">8090</string>
 

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -137,7 +138,7 @@ public class StoreModify extends BaseActivity {
     }
 
     private void addAddItem() {
-        if (this.mImageURLS.size() < 9) {
+        if (this.mImageURLS.size() < 9 && !this.mImageURLS.get(this.mImageURLS.size() - 1).equals(ADD_FLAG)) {
             this.mImageURLS.add(ADD_FLAG);
         }
     }
@@ -200,11 +201,11 @@ public class StoreModify extends BaseActivity {
         mSubmitButton.setEnabled(false);
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("信息更新中...");
+            mProgressDialog.setMessage("信息更新中...请耐心等待");
             mProgressDialog.setCancelable(false);
             mProgressDialog.show();
         } else {
-            mProgressDialog.setMessage("信息更新中...");
+            mProgressDialog.setMessage("信息更新中...请耐心等待");
             mProgressDialog.setCancelable(false);
             mProgressDialog.show();
         }
@@ -221,21 +222,30 @@ public class StoreModify extends BaseActivity {
             mImageURLS.remove(mImageURLS.size() - 1);
         }
 
+//        MyTask task = new MyTask();
+//        task.execute("");
+        uploadImages();
+
+    }
+
+    private void uploadImages() {
         for (int index = 0; index < mImageURLS.size(); index ++) {
             String imageUrl = mImageURLS.get(index);
             if (!imageUrl.contains("http")) {
                 uploadImageCount ++;
-                try {
-                    File file = getFilesDir();
-                    String target = file.getPath() + "compressPic.jpg";
-                    ImageUtil.compressBmpToFile(imageUrl, target);
-                    RequestParams params = new RequestParams();
-                    params.put("img", new File(target));
-                    new FileUploadProxy().upload(this, params, new UploadImageResponseHandler(index));
-                } catch (IOException e) {
-                    Log.d("AYueP", e.getMessage());
-                    dismissProgressDialog();
-                }
+                MyTask task = new MyTask(index, imageUrl);
+                task.execute("");
+//                try {
+//                    File file = getFilesDir();
+//                    String target = file.getPath() + "compressPic.jpg";
+//                    ImageUtil.compressBmpToFile(imageUrl, target);
+//                    RequestParams params = new RequestParams();
+//                    params.put("img", new File(imageUrl));
+//                    new FileUploadProxy().upload(this, params, new UploadImageResponseHandler(index));
+//                } catch (IOException e) {
+//                    Log.d("AYueP", e.getMessage());
+//                    dismissProgressDialog();
+//                }
             }
         }
         if (uploadImageCount == 0) {
@@ -306,6 +316,7 @@ public class StoreModify extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     mImageURLS.remove(url);
+                    addAddItem();
                     refreshGridView();
                 }
             });
@@ -379,6 +390,63 @@ public class StoreModify extends BaseActivity {
             Toast.makeText(StoreModify.this, "图片上传失败, 请稍后再试! ", Toast.LENGTH_LONG).show();
             dismissProgressDialog();
             mSubmitButton.setEnabled(true);
+        }
+    }
+
+    private class MyTask extends AsyncTask<String, Integer, String> {
+
+        private int index;
+        private String path;
+        private String targetPath;
+
+
+        private MyTask(int index, String path) {
+            this.index = index;
+            this.path = path;
+            File file = getFilesDir();
+            this.targetPath = file.getPath() + "compressPic" + Integer.toString(index) + ".jpg";
+            Log.d("zip", "begin");
+        }
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            Log.d("zip", "ing1...");
+
+//            for (int index = 0; index < mImageURLS.size(); index ++) {
+//                String imageUrl = mImageURLS.get(index);
+//                if (!imageUrl.contains("http")) {
+//                    File file = getFilesDir();
+//                    String target = file.getPath() + "compressPic" + Integer.toString(index) + ".jpg";
+                    ImageUtil.compressBmpToFile(this.path, this.targetPath);
+//                    mImageURLS.set(index, target);
+//                }
+//            }
+            Log.d("zip", "ing2...");
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            Log.d("zip", "updating");
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                RequestParams params = new RequestParams();
+                params.put("img", new File(targetPath));
+                new FileUploadProxy().upload(StoreModify.this, params, new UploadImageResponseHandler(this.index));
+//                uploadImages();
+                Log.d("zip", "done");
+//                dismissProgressDialog();
+            } catch (IOException e) {
+                Log.d("AYueP", e.getMessage());
+                dismissProgressDialog();
+            }
         }
     }
 }
