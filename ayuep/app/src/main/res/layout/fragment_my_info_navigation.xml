@@ -1,7 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/colorCommonBackgroud">
 
     <LinearLayout
@@ -20,4 +21,20 @@
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/id_go_connect"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorWhiteColor">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:textColor="@color/colorTitle"
+            android:text="联系客服"
+            android:layout_marginLeft="16dp"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+</LinearLayout>

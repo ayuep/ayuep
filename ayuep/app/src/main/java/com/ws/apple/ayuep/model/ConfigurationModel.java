@@ -16,6 +16,9 @@ public class ConfigurationModel {
     @SerializedName("rotations")
     private List<RotationModel> banners;
 
+    @SerializedName("configuration")
+    private List<ConfigModel> configs;
+
     public List<ProductTypeModel> getProductTypes() {
         return productTypes;
     }
@@ -30,5 +33,13 @@ public class ConfigurationModel {
 
     public void setBanners(List<RotationModel> banners) {
         this.banners = banners;
+    }
+
+    public List<ConfigModel> getConfigs() {
+        return configs;
+    }
+
+    public void setConfigs(List<ConfigModel> configs) {
+        this.configs = configs;
     }
 }

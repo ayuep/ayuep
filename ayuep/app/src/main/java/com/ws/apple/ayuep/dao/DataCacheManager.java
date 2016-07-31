@@ -8,6 +8,7 @@ import android.util.Log;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.ws.apple.ayuep.Constants;
 import com.ws.apple.ayuep.entity.SettingModel;
+import com.ws.apple.ayuep.model.ConfigModel;
 import com.ws.apple.ayuep.model.ConfigurationModel;
 
 import java.util.UUID;
@@ -104,5 +105,16 @@ public class DataCacheManager {
 
     public void setConfiguration(ConfigurationModel configuration) {
         this.configuration = configuration;
+    }
+
+    public String getValue(String key)
+    {
+        if (this.configuration != null && this.configuration.getConfigs() != null) {
+            for (ConfigModel config : this.configuration.getConfigs()) {
+                if (config.getKey().equals(key))
+                    return config.getValue();
+            }
+        }
+        return "";
     }
 }

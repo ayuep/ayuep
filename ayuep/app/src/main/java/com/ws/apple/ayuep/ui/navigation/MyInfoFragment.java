@@ -28,6 +28,7 @@ import com.ws.apple.ayuep.model.StoreAccountModel;
 import com.ws.apple.ayuep.proxy.StoreProxy;
 import com.ws.apple.ayuep.ui.order.RegisterCustomerActivity;
 import com.ws.apple.ayuep.ui.store.StoreActivity;
+import com.ws.apple.ayuep.util.ContactUtil;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -70,6 +71,19 @@ public class MyInfoFragment extends BaseFragment {
                         Intent intent = new Intent(getActivity().getApplicationContext(), StoreActivity.class);
                         startActivity(intent);
                     }
+                }
+            }
+        });
+
+        View connectView = v.findViewById(R.id.id_go_connect);
+        connectView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone = DataCacheManager.getDataCacheManager(getActivity()).getValue("phone");
+                if (TextUtils.isEmpty(phone)) {
+                    ContactUtil.call(getActivity(), "18751634551");
+                } else  {
+                    ContactUtil.call(getActivity(), phone);
                 }
             }
         });
