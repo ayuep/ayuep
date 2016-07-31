@@ -12,6 +12,9 @@ public class SettingModel {
 
     private static final long serialVersionUID = 1L;
 
+    @DatabaseField(generatedId = true, index = true, columnName = "id")
+    private int id;
+
     @DatabaseField(columnName = "key")
     private String key;
 

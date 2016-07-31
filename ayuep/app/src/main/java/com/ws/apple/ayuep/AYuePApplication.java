@@ -40,7 +40,7 @@ public class AYuePApplication extends Application {
         // register crash handler.
 //        CrashHandler.getInstance();
         DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
+                .cacheInMemory(false)
                 .cacheOnDisk(true)
                 .imageScaleType(EXACTLY_STRETCHED)
                 .build();

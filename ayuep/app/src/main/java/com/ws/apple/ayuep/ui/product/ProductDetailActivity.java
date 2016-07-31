@@ -126,9 +126,11 @@ public class ProductDetailActivity extends BaseActivity {
             Log.d("Get product failed", e.getMessage());
         }
 
-        String[] images = mProduct.getImages().split(",");
-        for (String image : images) {
-            mNetworkImages.add(image);
+        if (!TextUtils.isEmpty(mProduct.getImages())) {
+            String[] images = mProduct.getImages().split(",");
+            for (String image : images) {
+                mNetworkImages.add(image);
+            }
         }
 
         new ProductProxy().getProductSales(this, mProduct.getProductId(), new ProductAysncResponseHandler());

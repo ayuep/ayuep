@@ -18,6 +18,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-        android.os.Process.killProcess(android.os.Process.myPid());
+//        android.os.Process.killProcess(android.os.Process.myPid());
     }
 }

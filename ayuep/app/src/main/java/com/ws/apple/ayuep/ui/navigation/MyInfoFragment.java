@@ -57,13 +57,14 @@ public class MyInfoFragment extends BaseFragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(DataCacheManager.getDataCacheManager(getActivity()).getStoreId(getActivity()))) {
+                String storeId = DataCacheManager.getDataCacheManager(getActivity()).getStoreId(getActivity());
+                if (TextUtils.isEmpty(storeId)) {
                     invite();
                 } else {
-                    StoreInfoDBModel store = new StoreInfoDBModelDao(getActivity()).queryByStoreId(DataCacheManager.getDataCacheManager(getActivity()).getStoreId(getActivity()));
+                    StoreInfoDBModel store = new StoreInfoDBModelDao(getActivity()).queryByStoreId(storeId);
                     if (store == null) {
                         new SettingModelDao(getActivity()).delete(Constants.SettingKeyCurrentStoreId);
-                        DataCacheManager.getDataCacheManager(getActivity()).setStoreId("");
+                        DataCacheManager.getDataCacheManager(getActivity()).resetStoreId(getActivity());
                         invite();
                     } else {
                         Intent intent = new Intent(getActivity().getApplicationContext(), StoreActivity.class);

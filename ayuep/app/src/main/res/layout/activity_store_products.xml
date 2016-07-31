@@ -6,6 +6,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_above="@+id/id_store_products_add"
             android:id="@+id/id_list_view">
         </ListView>

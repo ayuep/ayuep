@@ -27,6 +27,7 @@ import com.ws.apple.ayuep.entity.StoreInfoDBModel;
 import com.ws.apple.ayuep.handler.BaseAsyncHttpResponseHandler;
 import com.ws.apple.ayuep.proxy.FileUploadProxy;
 import com.ws.apple.ayuep.proxy.StoreProxy;
+import com.ws.apple.ayuep.util.ImageUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -85,8 +86,6 @@ public class StoreInfoActivity extends BaseActivity {
         PhotoPicker.builder()
                 .setPhotoCount(1)
                 .setShowCamera(true)
-                .setShowGif(true)
-                .setPreviewEnabled(false)
                 .start(this, PhotoPicker.REQUEST_CODE);
     }
 
@@ -117,8 +116,11 @@ public class StoreInfoActivity extends BaseActivity {
         if (!TextUtils.isEmpty(mFilePath)) {
             try {
                 showProgressDialog(false, "信息更新中...");
+                File file = getFilesDir();
+                String target = file.getPath() + "compressPic.jpg";
+                ImageUtil.compressBmpToFile(mFilePath, target);
                 RequestParams params = new RequestParams();
-                params.put("img", new File(mFilePath));
+                params.put("img", new File(target));
                 new FileUploadProxy().upload(this, params, new BaseAsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {

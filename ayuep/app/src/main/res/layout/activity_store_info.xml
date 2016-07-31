@@ -64,6 +64,8 @@
             android:lines="1"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:background="@drawable/edit_frame_color" />
     </LinearLayout>
 
@@ -94,6 +96,8 @@
             android:lines="1"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:background="@drawable/edit_frame_color" />
     </LinearLayout>
 

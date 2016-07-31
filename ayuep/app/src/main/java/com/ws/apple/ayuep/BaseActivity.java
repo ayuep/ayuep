@@ -15,6 +15,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        AYuePApplication.setmCurrentActivity(this);
     }
 
     @Override
@@ -27,6 +28,11 @@ public class BaseActivity extends AppCompatActivity {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setMessage(message);
+            mProgressDialog.setCancelable(cancelable);
+            mProgressDialog.show();
+        } else {
+            mProgressDialog.setMessage(message);
+            mProgressDialog.setCancelable(cancelable);
             mProgressDialog.show();
         }
     }
